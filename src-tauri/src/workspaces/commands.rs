@@ -17,7 +17,9 @@ use super::worktree::{
 };
 
 use crate::backend::app_server::WorkspaceSession;
+use crate::claude;
 use crate::codex::spawn_workspace_session;
+use crate::event_sink::TauriEventSink;
 use crate::git_utils::resolve_git_root;
 use crate::remote_backend;
 use crate::shared::{workspace_rpc, workspaces_core};
@@ -600,6 +602,12 @@ pub(crate) async fn connect_workspace(
             workspace_remote_params(&request)?,
         )
         .await?;
+        return Ok(());
+    }
+
+    if claude::is_claude_mode(&state.app_settings).await {
+        let event_sink = TauriEventSink::new(app.clone());
+        claude::connect_workspace_claude(&id, event_sink);
         return Ok(());
     }
 

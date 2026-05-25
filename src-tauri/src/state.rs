@@ -5,6 +5,7 @@ use tauri::{AppHandle, Manager};
 use tokio::process::Child;
 use tokio::sync::Mutex;
 
+use crate::claude::ClaudeState;
 use crate::dictation::DictationState;
 use crate::shared::codex_core::CodexLoginCancelState;
 use crate::storage::{read_settings, read_workspaces};
@@ -35,6 +36,7 @@ pub(crate) struct AppState {
     pub(crate) sessions: Mutex<HashMap<String, Arc<crate::codex::WorkspaceSession>>>,
     pub(crate) terminal_sessions: Mutex<HashMap<String, Arc<crate::terminal::TerminalSession>>>,
     pub(crate) remote_backend: Mutex<Option<crate::remote_backend::RemoteBackend>>,
+    pub(crate) claude_state: Arc<ClaudeState>,
     pub(crate) storage_path: PathBuf,
     pub(crate) settings_path: PathBuf,
     pub(crate) app_settings: Mutex<AppSettings>,
@@ -58,6 +60,7 @@ impl AppState {
             sessions: Mutex::new(HashMap::new()),
             terminal_sessions: Mutex::new(HashMap::new()),
             remote_backend: Mutex::new(None),
+            claude_state: ClaudeState::new(),
             storage_path,
             settings_path,
             app_settings: Mutex::new(app_settings),

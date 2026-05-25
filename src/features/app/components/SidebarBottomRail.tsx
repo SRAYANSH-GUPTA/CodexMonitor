@@ -8,6 +8,7 @@ import {
   PopoverSurface,
 } from "../../design-system/components/popover/PopoverPrimitives";
 import { useMenuController } from "../hooks/useMenuController";
+import { useAppSettings } from "../../settings/hooks/useAppSettings";
 
 type SidebarBottomRailProps = {
   sessionPercent: number | null;
@@ -71,6 +72,9 @@ export function SidebarBottomRail({
   onSwitchAccount,
   onCancelSwitchAccount,
 }: SidebarBottomRailProps) {
+  const { settings: appSettings } = useAppSettings();
+  const activeProvider = appSettings.localProvider ?? "codex";
+
   const accountMenu = useMenuController();
   const {
     isOpen: accountMenuOpen,
@@ -175,6 +179,13 @@ export function SidebarBottomRail({
               </span>
               <span>Settings</span>
             </button>
+            <span
+              className={`sidebar-provider-badge sidebar-provider-badge--${activeProvider}`}
+              title={`Active provider: ${activeProvider === "claude" ? "Claude" : "Codex"}`}
+              aria-label={`Active provider: ${activeProvider === "claude" ? "Claude" : "Codex"}`}
+            >
+              {activeProvider === "claude" ? "Claude" : "Codex"}
+            </span>
           {showDebugButton && (
             <button
               className="ghost sidebar-utility-button"

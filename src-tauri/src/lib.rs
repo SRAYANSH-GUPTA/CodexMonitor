@@ -7,6 +7,7 @@ use tauri::RunEvent;
 use tauri::WindowEvent;
 
 mod backend;
+mod claude;
 mod codex;
 mod daemon_binary;
 mod dictation;

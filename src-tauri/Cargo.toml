@@ -48,7 +48,7 @@ toml_edit = "0.20.2"
 tauri-plugin-updater = "2.10.0"
 tauri-plugin-window-state = "2"
 cpal = "0.15"
-whisper-rs = "0.12"
+whisper-rs = "0.16"
 sha2 = "0.10"
 portable-pty = "0.8"
 

@@ -235,7 +235,10 @@ export type OpenAppTarget = {
   args: string[];
 };
 
+export type LocalAgentProvider = "codex" | "claude";
+
 export type AppSettings = {
+  localProvider: LocalAgentProvider;
   codexBin: string | null;
   codexArgs: string | null;
   backendMode: BackendMode;

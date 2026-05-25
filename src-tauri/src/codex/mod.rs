@@ -11,6 +11,7 @@ pub(crate) mod home;
 use crate::backend::app_server::spawn_workspace_session as spawn_workspace_session_inner;
 pub(crate) use crate::backend::app_server::WorkspaceSession;
 use crate::backend::events::AppServerEvent;
+use crate::claude;
 use crate::event_sink::TauriEventSink;
 use crate::remote_backend;
 use crate::shared::agents_config_core;
@@ -87,6 +88,11 @@ pub(crate) async fn start_thread(
         .await;
     }
 
+    if claude::is_claude_mode(&state.app_settings).await {
+        let event_sink = TauriEventSink::new(app.clone());
+        return claude::start_thread_claude(&state.claude_state, &workspace_id, event_sink).await;
+    }
+
     codex_core::start_thread_core(&state.sessions, &state.workspaces, workspace_id).await
 }
 
@@ -107,6 +113,10 @@ pub(crate) async fn resume_thread(
         .await;
     }
 
+    if claude::is_claude_mode(&state.app_settings).await {
+        return claude::read_thread_claude(&state.claude_state, &workspace_id, &thread_id).await;
+    }
+
     codex_core::resume_thread_core(&state.sessions, workspace_id, thread_id).await
 }
 
@@ -125,6 +135,10 @@ pub(crate) async fn read_thread(
             json!({ "workspaceId": workspace_id, "threadId": thread_id }),
         )
         .await;
+    }
+
+    if claude::is_claude_mode(&state.app_settings).await {
+        return claude::read_thread_claude(&state.claude_state, &workspace_id, &thread_id).await;
     }
 
     codex_core::read_thread_core(&state.sessions, workspace_id, thread_id).await
@@ -248,6 +262,10 @@ pub(crate) async fn list_threads(
             }),
         )
         .await;
+    }
+
+    if claude::is_claude_mode(&state.app_settings).await {
+        return claude::list_threads_claude(&state.claude_state, &workspace_id).await;
     }
 
     codex_core::list_threads_core(&state.sessions, workspace_id, cursor, limit, sort_key).await
@@ -377,6 +395,26 @@ pub(crate) async fn send_user_message(
             app,
             "send_user_message",
             Value::Object(payload),
+        )
+        .await;
+    }
+
+    if claude::is_claude_mode(&state.app_settings).await {
+        let workspace_cwd = {
+            let workspaces = state.workspaces.lock().await;
+            workspaces
+                .get(&workspace_id)
+                .map(|w| w.path.clone())
+                .unwrap_or_default()
+        };
+        let event_sink = TauriEventSink::new(app.clone());
+        return claude::send_message_claude(
+            Arc::clone(&state.claude_state),
+            workspace_id,
+            workspace_cwd,
+            thread_id,
+            text,
+            event_sink,
         )
         .await;
     }

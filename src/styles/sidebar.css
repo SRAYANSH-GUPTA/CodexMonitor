@@ -1950,6 +1950,29 @@
   height: 14px;
 }
 
+.sidebar-provider-badge {
+  display: inline-flex;
+  align-items: center;
+  align-self: center;
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  line-height: 1.6;
+  white-space: nowrap;
+  cursor: default;
+  user-select: none;
+  background-color: var(--ds-surface-overlay, rgba(128, 128, 128, 0.12));
+  color: var(--ds-text-subtle, rgba(128, 128, 128, 0.8));
+  border: 1px solid var(--ds-border-subtle, rgba(128, 128, 128, 0.15));
+}
+
+.sidebar-provider-badge--claude {
+  background-color: var(--ds-accent-muted, rgba(209, 120, 66, 0.15));
+  color: var(--ds-accent, #d17842);
+  border-color: var(--ds-accent-border, rgba(209, 120, 66, 0.3));
+}
 
 @keyframes pulse {
   0% {

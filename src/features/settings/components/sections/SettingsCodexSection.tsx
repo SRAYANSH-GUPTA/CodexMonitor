@@ -233,6 +233,31 @@ export function SettingsCodexSection({
       subtitle="Configure the Codex CLI used by CodexMonitor and validate the install."
     >
       <div className="settings-field">
+        <label className="settings-field-label" htmlFor="local-provider">
+          Active provider
+        </label>
+        <div className="settings-field-row">
+          <select
+            id="local-provider"
+            className="settings-select"
+            value={appSettings.localProvider ?? "codex"}
+            onChange={(event) =>
+              void onUpdateAppSettings({
+                ...appSettings,
+                localProvider: event.target.value as "codex" | "claude",
+              })
+            }
+          >
+            <option value="codex">Codex</option>
+            <option value="claude">Claude</option>
+          </select>
+        </div>
+        <div className="settings-help">
+          Choose whether CodexMonitor uses the Codex CLI or the Claude CLI as the local agent. Changes take effect immediately — reconnect a workspace to apply.
+        </div>
+      </div>
+      <div className="settings-divider" />
+      <div className="settings-field">
         <label className="settings-field-label" htmlFor="codex-path">
           Default Codex path
         </label>

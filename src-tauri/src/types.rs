@@ -377,6 +377,8 @@ pub(crate) struct RemoteBackendTarget {
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub(crate) struct AppSettings {
+    #[serde(default, rename = "localProvider")]
+    pub(crate) local_provider: LocalAgentProvider,
     #[serde(default, rename = "codexBin")]
     pub(crate) codex_bin: Option<String>,
     #[serde(default, rename = "codexArgs")]
@@ -673,6 +675,14 @@ impl Default for RemoteBackendProvider {
     fn default() -> Self {
         RemoteBackendProvider::Tcp
     }
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone, PartialEq, Eq, Default)]
+#[serde(rename_all = "lowercase")]
+pub(crate) enum LocalAgentProvider {
+    #[default]
+    Codex,
+    Claude,
 }
 
 fn default_access_mode() -> String {
@@ -1123,6 +1133,7 @@ fn default_selected_open_app_id() -> String {
 impl Default for AppSettings {
     fn default() -> Self {
         Self {
+            local_provider: LocalAgentProvider::Codex,
             codex_bin: None,
             codex_args: None,
             backend_mode: default_backend_mode(),
