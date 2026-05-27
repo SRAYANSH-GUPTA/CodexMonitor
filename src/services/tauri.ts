@@ -1,4 +1,9 @@
 import { invoke } from "@tauri-apps/api/core";
+import type {
+  MarketplaceSkill,
+  InstalledSkill,
+  InstallSkillArgs,
+} from "../features/marketplace/types";
 import { open, save } from "@tauri-apps/plugin-dialog";
 import type { Options as NotificationOptions } from "@tauri-apps/plugin-notification";
 import type {
@@ -1193,4 +1198,72 @@ export async function sendNotification(
   }
 
   await attemptFallback();
+}
+
+
+// ─── Marketplace ──────────────────────────────────────────────────────────────
+
+export async function marketplaceSearch(
+  query: string,
+  category?: string,
+): Promise<MarketplaceSkill[]> {
+  const raw = await invoke<Record<string, unknown>[]>("marketplace_search", {
+    query,
+    category: category && category !== "all" ? category : null,
+  });
+  return raw.map(camelCaseSkill);
+}
+
+export async function marketplaceInstall(
+  args: InstallSkillArgs,
+): Promise<string[]> {
+  return invoke("marketplace_install", {
+    args: {
+      skill_id: args.skillId,
+      name: args.name,
+      display_name: args.displayName,
+      description: args.description,
+      author: args.author,
+      content: args.content,
+      providers: args.providers,
+    },
+  });
+}
+
+export async function marketplaceInstalled(): Promise<InstalledSkill[]> {
+  const raw = await invoke<Record<string, unknown>[]>("marketplace_installed");
+  return raw.map((r) => ({
+    id: r.id as string,
+    name: r.name as string,
+    displayName: r.display_name as string,
+    installedProviders: r.installed_providers as string[],
+  }));
+}
+
+export async function marketplaceUninstall(
+  skillId: string,
+  name: string,
+  providers: string[],
+): Promise<void> {
+  return invoke("marketplace_uninstall", {
+    skillId,
+    name,
+    providers,
+  });
+}
+
+function camelCaseSkill(r: Record<string, unknown>): MarketplaceSkill {
+  return {
+    id: r.id as string,
+    name: r.name as string,
+    displayName: r.display_name as string,
+    description: r.description as string,
+    category: r.category as string,
+    author: r.author as string,
+    stars: r.stars as number,
+    content: r.content as string,
+    source: r.source as string,
+    tags: r.tags as string[],
+    githubUrl: (r.github_url as string | null) ?? null,
+  };
 }

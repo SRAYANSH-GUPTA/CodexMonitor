@@ -1,4 +1,5 @@
 import { SettingsCodexSection } from "./SettingsCodexSection";
+import { MarketplaceView } from "@/features/marketplace/components/MarketplaceView";
 import { SettingsComposerSection } from "./SettingsComposerSection";
 import { SettingsDictationSection } from "./SettingsDictationSection";
 import { SettingsDisplaySection } from "./SettingsDisplaySection";
@@ -61,6 +62,9 @@ export function SettingsSectionContainers({
   }
   if (activeSection === "features") {
     return <SettingsFeaturesSection {...orchestration.featuresSectionProps} />;
+  }
+  if (activeSection === "marketplace") {
+    return <MarketplaceView />;
   }
   return null;
 }

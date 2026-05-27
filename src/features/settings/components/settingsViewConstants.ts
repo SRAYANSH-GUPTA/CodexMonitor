@@ -87,6 +87,7 @@ export const SETTINGS_SECTION_LABELS: Record<CodexSection, string> = {
   agents: "Agents",
   codex: "Codex",
   features: "Features",
+  marketplace: "Marketplace",
 };
 
 export const SHORTCUT_DRAFT_KEY_BY_SETTING: Record<

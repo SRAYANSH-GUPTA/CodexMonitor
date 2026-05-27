@@ -22,6 +22,13 @@ type ComposerMetaBarProps = {
   selectedCodexArgsOverride?: string | null;
   onSelectCodexArgsOverride?: (value: string | null) => void;
   contextUsage?: ThreadTokenUsage | null;
+  // Send button
+  canSend?: boolean;
+  canStop?: boolean;
+  isProcessing?: boolean;
+  charCount?: number;
+  onSend?: () => void;
+  onStop?: () => void;
 };
 
 export function ComposerMetaBar({
@@ -43,6 +50,12 @@ export function ComposerMetaBar({
   selectedCodexArgsOverride = null,
   onSelectCodexArgsOverride,
   contextUsage = null,
+  canSend = false,
+  canStop = false,
+  isProcessing = false,
+  charCount = 0,
+  onSend,
+  onStop,
 }: ComposerMetaBarProps) {
   const selectedModel =
     models.find((model) => model.id === selectedModelId) ?? null;
@@ -51,18 +64,7 @@ export function ComposerMetaBar({
   const modelSelectStyle = {
     "--composer-model-select-width": `${Math.max(selectedModelLabel.length + 2, 8)}ch`,
   } as CSSProperties;
-  const contextWindow = contextUsage?.modelContextWindow ?? null;
-  const lastTokens = contextUsage?.last.totalTokens ?? 0;
-  const totalTokens = contextUsage?.total.totalTokens ?? 0;
-  const usedTokens = lastTokens > 0 ? lastTokens : totalTokens;
-  const contextFreePercent =
-    contextWindow && contextWindow > 0 && usedTokens > 0
-      ? Math.max(
-          0,
-          100 -
-            Math.min(Math.max((usedTokens / contextWindow) * 100, 0), 100),
-        )
-      : null;
+  void contextUsage; // kept for future use
   const planMode =
     collaborationModes.find((mode) => mode.id === "plan") ?? null;
   const defaultMode =
@@ -273,26 +275,39 @@ export function ComposerMetaBar({
         </div>
       </div>
       <div className="composer-context">
-        <div
-          className="composer-context-ring"
-          data-tooltip={
-            contextFreePercent === null
-              ? "Context free --"
-              : `Context free ${Math.round(contextFreePercent)}%`
-          }
-          aria-label={
-            contextFreePercent === null
-              ? "Context free --"
-              : `Context free ${Math.round(contextFreePercent)}%`
-          }
-          style={
-            {
-              "--context-free": contextFreePercent ?? 0,
-            } as CSSProperties
-          }
+        {charCount > 0 && (
+          <span
+            className="composer-char-count"
+            aria-label={`${charCount} characters`}
+          >
+            {charCount}
+          </span>
+        )}
+        <button
+          type="button"
+          className={`composer-send-btn${canStop ? " is-stop" : ""}${isProcessing ? " is-loading" : ""}`}
+          onClick={canStop ? onStop : onSend}
+          disabled={(!canStop && !canSend) || disabled}
+          aria-label={canStop ? "Stop" : "Send"}
+          title={canStop ? "Stop" : "Send"}
         >
-          <span className="composer-context-value">●</span>
-        </div>
+          {canStop ? (
+            <>
+              <span className="composer-send-btn-stop" aria-hidden />
+              {isProcessing && <span className="composer-send-btn-spinner" aria-hidden />}
+            </>
+          ) : (
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden>
+              <path
+                d="M12 5l6 6m-6-6L6 11m6-6v14"
+                stroke="currentColor"
+                strokeWidth="1.8"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          )}
+        </button>
       </div>
     </div>
   );

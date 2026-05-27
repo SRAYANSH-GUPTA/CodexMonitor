@@ -11,6 +11,7 @@ import Layers from "lucide-react/dist/esm/icons/layers";
 import ServerCog from "lucide-react/dist/esm/icons/server-cog";
 import Bot from "lucide-react/dist/esm/icons/bot";
 import Info from "lucide-react/dist/esm/icons/info";
+import Store from "lucide-react/dist/esm/icons/store";
 import { PanelNavItem, PanelNavList } from "@/features/design-system/components/panel/PanelPrimitives";
 import type { CodexSection } from "./settingsTypes";
 
@@ -135,6 +136,15 @@ export function SettingsNav({
           onClick={() => onSelectSection("features")}
         >
           Features
+        </PanelNavItem>
+        <PanelNavItem
+          className="settings-nav"
+          icon={<Store aria-hidden />}
+          active={activeSection === "marketplace"}
+          showDisclosure={showDisclosure}
+          onClick={() => onSelectSection("marketplace")}
+        >
+          Marketplace
         </PanelNavItem>
         <PanelNavItem
           className="settings-nav"

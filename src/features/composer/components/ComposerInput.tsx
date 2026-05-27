@@ -79,6 +79,7 @@ type ComposerInputProps = {
   onReviewPromptConfirmCommit?: () => Promise<void>;
   onReviewPromptUpdateCustomInstructions?: (value: string) => void;
   onReviewPromptConfirmCustom?: () => Promise<void>;
+  hideSendButton?: boolean;
 };
 
 export function ComposerInput({
@@ -135,6 +136,7 @@ export function ComposerInput({
   onReviewPromptConfirmCommit,
   onReviewPromptUpdateCustomInstructions,
   onReviewPromptConfirmCustom,
+  hideSendButton = false,
 }: ComposerInputProps) {
   const suggestionListRef = useRef<HTMLDivElement | null>(null);
   const suggestionRefs = useRef<Array<HTMLButtonElement | null>>([]);
@@ -276,7 +278,7 @@ export function ComposerInput({
             placeholder={
               disabled
                 ? "Review in progress. Chat will re-enable when it completes."
-                : "Ask Codex to do something..."
+                : "Ask for follow-up changes or attach images"
             }
             value={text}
             onChange={handleTextareaChange}
@@ -322,34 +324,36 @@ export function ComposerInput({
                 <Mic aria-hidden />
               )}
             </button>
-            <button
-              className={`composer-action${canStop ? " is-stop" : " is-send"}${
-                canStop && isProcessing ? " is-loading" : ""
-              }`}
-              onClick={handleActionClick}
-              disabled={(disabled && !canStop) || isDictationBusy || (!canStop && !canSend)}
-              aria-label={canStop ? "Stop" : sendLabel}
-              title={canStop ? "Stop" : sendLabel}
-            >
-              {canStop ? (
-                <>
-                  <span className="composer-action-stop-square" aria-hidden />
-                  {isProcessing && (
-                    <span className="composer-action-spinner" aria-hidden />
-                  )}
-                </>
-              ) : (
-                <svg viewBox="0 0 24 24" fill="none" aria-hidden>
-                  <path
-                    d="M12 5l6 6m-6-6L6 11m6-6v14"
-                    stroke="currentColor"
-                    strokeWidth="1.7"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              )}
-            </button>
+            {!hideSendButton && (
+              <button
+                className={`composer-action${canStop ? " is-stop" : " is-send"}${
+                  canStop && isProcessing ? " is-loading" : ""
+                }`}
+                onClick={handleActionClick}
+                disabled={(disabled && !canStop) || isDictationBusy || (!canStop && !canSend)}
+                aria-label={canStop ? "Stop" : sendLabel}
+                title={canStop ? "Stop" : sendLabel}
+              >
+                {canStop ? (
+                  <>
+                    <span className="composer-action-stop-square" aria-hidden />
+                    {isProcessing && (
+                      <span className="composer-action-spinner" aria-hidden />
+                    )}
+                  </>
+                ) : (
+                  <svg viewBox="0 0 24 24" fill="none" aria-hidden>
+                    <path
+                      d="M12 5l6 6m-6-6L6 11m6-6v14"
+                      stroke="currentColor"
+                      strokeWidth="1.7"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                )}
+              </button>
+            )}
           </div>
         </div>
         {isDictationBusy && (

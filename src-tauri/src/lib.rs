@@ -8,6 +8,7 @@ use tauri::WindowEvent;
 
 mod backend;
 mod claude;
+mod marketplace;
 mod codex;
 mod daemon_binary;
 mod dictation;
@@ -305,7 +306,11 @@ pub fn run() {
             tailscale::tailscale_daemon_start,
             tailscale::tailscale_daemon_stop,
             tailscale::tailscale_daemon_status,
-            is_mobile_runtime
+            is_mobile_runtime,
+            marketplace::marketplace_search,
+            marketplace::marketplace_install,
+            marketplace::marketplace_installed,
+            marketplace::marketplace_uninstall
         ])
         .build(tauri::generate_context!())
         .expect("error while running tauri application");
