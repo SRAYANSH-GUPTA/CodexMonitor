@@ -1,6 +1,6 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "identifier": "com.dimillian.codexmonitor.ios",
+  "identifier": "com.dimillian.hopper.ios",
   "bundle": {
     "iOS": {
       "developmentTeam": "Z6P74P6T99"

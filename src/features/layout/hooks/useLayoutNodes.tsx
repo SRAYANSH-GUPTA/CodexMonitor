@@ -11,9 +11,22 @@ export function useLayoutNodes(options: LayoutNodesOptions): LayoutNodesResult {
   const gitOptions: GitLayoutNodesOptions = options.git;
   const secondaryOptions: SecondaryLayoutNodesOptions = options.secondary;
 
+  // Build git + secondary nodes first so we can inject panels into the sidebar
+  const gitNodes = buildGitNodes(gitOptions);
+  const secondaryNodes = buildSecondaryNodes(secondaryOptions);
+
+  const primaryOptionsWithPanels: PrimaryLayoutNodesOptions = {
+    ...primaryOptions,
+    sidebarProps: {
+      ...primaryOptions.sidebarProps,
+      gitPanelNode: gitNodes.gitDiffPanelNode,
+      planPanelNode: secondaryNodes.planPanelNode,
+    },
+  };
+
   return {
-    ...buildPrimaryNodes(primaryOptions),
-    ...buildGitNodes(gitOptions),
-    ...buildSecondaryNodes(secondaryOptions),
+    ...buildPrimaryNodes(primaryOptionsWithPanels),
+    ...gitNodes,
+    ...secondaryNodes,
   };
 }

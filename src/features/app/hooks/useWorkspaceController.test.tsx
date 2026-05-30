@@ -162,7 +162,7 @@ describe("useWorkspaceController dialogs", () => {
     expect(pickWorkspacePaths).not.toHaveBeenCalled();
 
     await act(async () => {
-      result.current.updateMobileRemoteWorkspacePathInput("/srv/codex-monitor");
+      result.current.updateMobileRemoteWorkspacePathInput("/srv/hopper");
     });
 
     await act(async () => {
@@ -175,7 +175,7 @@ describe("useWorkspaceController dialogs", () => {
     });
 
     expect(added).toMatchObject({ id: workspaceOne.id });
-    expect(isWorkspacePathDir).toHaveBeenCalledWith("/srv/codex-monitor");
+    expect(isWorkspacePathDir).toHaveBeenCalledWith("/srv/hopper");
     expect(result.current.mobileRemoteWorkspacePathPrompt).toBeNull();
     expect(window.localStorage.getItem("mobile-remote-workspace-recent-paths")).toBe(
       JSON.stringify(["/tmp/ws-1"]),

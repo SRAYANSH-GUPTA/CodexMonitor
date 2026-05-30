@@ -680,7 +680,7 @@ fn resolve_managed_agent_config_relative_path(
 
     let Some(relative_path) = managed_relative_path_from_config(config_file.as_str()) else {
         return Err(format!(
-            "agent '{name}' config_file is not managed by CodexMonitor"
+            "agent '{name}' config_file is not managed by Hopper"
         ));
     };
 
@@ -851,7 +851,7 @@ mod tests {
             .duration_since(UNIX_EPOCH)
             .expect("clock")
             .as_nanos();
-        let dir = std::env::temp_dir().join(format!("codex-monitor-{prefix}-{nonce}"));
+        let dir = std::env::temp_dir().join(format!("hopper-{prefix}-{nonce}"));
         if dir.exists() {
             let _ = std::fs::remove_dir_all(&dir);
         }

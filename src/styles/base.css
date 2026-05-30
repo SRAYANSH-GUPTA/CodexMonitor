@@ -56,7 +56,7 @@ body {
   overflow: hidden;
   position: relative;
   --main-topbar-height: 44px;
-  /* Shared Codex Monitor chrome language */
+  /* Shared Hopper chrome language */
   --cm-surface-row: color-mix(in srgb, var(--surface-card) 44%, transparent);
   --cm-surface-panel-soft: color-mix(in srgb, var(--surface-card) 56%, transparent);
   --cm-surface-panel: color-mix(in srgb, var(--surface-card) 64%, transparent);

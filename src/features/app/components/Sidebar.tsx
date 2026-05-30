@@ -9,8 +9,11 @@ import type {
   WorkspaceInfo,
 } from "../../../types";
 import { memo, useCallback, useEffect, useMemo, useState } from "react";
-import type { MouseEvent, RefObject } from "react";
+import type { MouseEvent, ReactNode, RefObject } from "react";
 import { FolderOpen } from "lucide-react";
+import GitBranch from "lucide-react/dist/esm/icons/git-branch";
+import Folders from "lucide-react/dist/esm/icons/folders";
+import ListChecks from "lucide-react/dist/esm/icons/list-checks";
 import { SidebarBottomRail } from "./SidebarBottomRail";
 import { SidebarHeader } from "./SidebarHeader";
 import { SidebarSearchBar } from "./SidebarSearchBar";
@@ -41,7 +44,7 @@ import { getUsageLabels } from "../utils/usageLabels";
 import { formatRelativeTimeShort } from "../../../utils/time";
 import type { ThreadStatusById } from "../../../utils/threadStatus";
 
-const COLLAPSED_GROUPS_STORAGE_KEY = "codexmonitor.collapsedGroups";
+const COLLAPSED_GROUPS_STORAGE_KEY = "hopper.collapsedGroups";
 const UNGROUPED_COLLAPSE_ID = "__ungrouped__";
 const ADD_MENU_WIDTH = 200;
 const ALL_THREADS_ADD_MENU_WIDTH = 220;
@@ -126,6 +129,7 @@ type SidebarProps = {
   onCancelSwitchAccount: () => void;
   accountSwitching: boolean;
   onOpenSettings: () => void;
+  onOpenMarketplace?: () => void;
   onOpenDebug: () => void;
   showDebugButton: boolean;
   onAddWorkspace: () => void;
@@ -158,6 +162,10 @@ type SidebarProps = {
   onWorkspaceDrop: (event: React.DragEvent<HTMLElement>) => void;
   /** Available Codex models — already fetched and connection-aware from MainApp's useModels */
   codexModels?: ModelOption[];
+  /** Git/source-control panel to show in the Source Control view */
+  gitPanelNode?: ReactNode;
+  /** Plan/tasks panel to show in the Tasks view */
+  planPanelNode?: ReactNode;
 };
 
 export const Sidebar = memo(function Sidebar({
@@ -189,6 +197,7 @@ export const Sidebar = memo(function Sidebar({
   onCancelSwitchAccount,
   accountSwitching,
   onOpenSettings,
+  onOpenMarketplace,
   onOpenDebug,
   showDebugButton,
   onAddWorkspace,
@@ -220,7 +229,10 @@ export const Sidebar = memo(function Sidebar({
   onWorkspaceDragLeave,
   onWorkspaceDrop,
   codexModels = [],
+  gitPanelNode,
+  planPanelNode,
 }: SidebarProps) {
+  const [activeView, setActiveView] = useState<"explorer" | "git" | "plan">("explorer");
   const [expandedWorkspaces, setExpandedWorkspaces] = useState(
     new Set<string>(),
   );
@@ -877,7 +889,59 @@ export const Sidebar = memo(function Sidebar({
       onDrop={onWorkspaceDrop}
     >
       <div className="sidebar-drag-strip" />
-      <SidebarHeader
+
+      {/* VS Code-style activity bar */}
+      <div className="sidebar-activity-bar">
+        <div className="sidebar-activity-top">
+          <button
+            type="button"
+            className={`sidebar-activity-btn ds-tooltip-trigger${activeView === "explorer" ? " is-active" : ""}`}
+            onClick={() => setActiveView("explorer")}
+            aria-label="Explorer"
+            aria-pressed={activeView === "explorer"}
+            data-tooltip="Explorer"
+            data-tooltip-placement="right"
+          >
+            <Folders size={20} aria-hidden />
+          </button>
+          {gitPanelNode && (
+            <button
+              type="button"
+              className={`sidebar-activity-btn ds-tooltip-trigger${activeView === "git" ? " is-active" : ""}`}
+              onClick={() => setActiveView("git")}
+              aria-label="Source Control"
+              aria-pressed={activeView === "git"}
+              data-tooltip="Source Control"
+              data-tooltip-placement="right"
+            >
+              <GitBranch size={20} aria-hidden />
+            </button>
+          )}
+          {planPanelNode && (
+            <button
+              type="button"
+              className={`sidebar-activity-btn ds-tooltip-trigger${activeView === "plan" ? " is-active" : ""}`}
+              onClick={() => setActiveView("plan")}
+              aria-label="Tasks"
+              aria-pressed={activeView === "plan"}
+              data-tooltip="Tasks"
+              data-tooltip-placement="right"
+            >
+              <ListChecks size={20} aria-hidden />
+            </button>
+          )}
+        </div>
+      </div>
+
+      {/* Sidebar panel — switches between Explorer and Source Control */}
+      <div className="sidebar-panel">
+        {activeView === "git" && gitPanelNode ? (
+          <div className="sidebar-git-panel">{gitPanelNode}</div>
+        ) : activeView === "plan" && planPanelNode ? (
+          <div className="sidebar-git-panel">{planPanelNode}</div>
+        ) : (
+          <>
+            <SidebarHeader
         onSelectHome={onSelectHome}
         onAddWorkspace={onAddWorkspace}
         onToggleSearch={() => setIsSearchOpen((prev) => !prev)}
@@ -1043,6 +1107,7 @@ export const Sidebar = memo(function Sidebar({
         creditsLabel={creditsLabel}
         showWeekly={showWeekly}
         onOpenSettings={onOpenSettings}
+        onOpenMarketplace={onOpenMarketplace}
         onOpenDebug={onOpenDebug}
         showDebugButton={showDebugButton}
         showAccountSwitcher={showAccountSwitcher}
@@ -1054,6 +1119,9 @@ export const Sidebar = memo(function Sidebar({
         onSwitchAccount={onSwitchAccount}
         onCancelSwitchAccount={onCancelSwitchAccount}
       />
+          </>
+        )}
+      </div>
     </aside>
   );
 });

@@ -1404,6 +1404,7 @@ export default function MainApp() {
     isCompact,
     isPhone,
     isTablet,
+    showHome,
     sidebarCollapsed,
     rightPanelCollapsed,
     shouldReduceTransparency,
@@ -1785,6 +1786,9 @@ export default function MainApp() {
     dismissErrorToast,
     showDebugButton,
     handleDebugClick,
+    rightPanelCollapsed,
+    expandRightPanel,
+    collapseRightPanel,
   });
 
   const {

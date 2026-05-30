@@ -1,7 +1,43 @@
 import type { CSSProperties } from "react";
+import { useCallback } from "react";
 import { BrainCog, SlidersHorizontal, Zap } from "lucide-react";
 import type { AccessMode, ServiceTier, ThreadTokenUsage } from "../../../types";
 import type { CodexArgsOption } from "../../threads/utils/codexArgsProfiles";
+import { useAppSettings } from "../../settings/hooks/useAppSettings";
+import { PROVIDERS, DEFAULT_PROVIDER_ID } from "../../app/providers";
+
+function ProviderToggle({ disabled }: { disabled: boolean }) {
+  const { settings, saveSettings } = useAppSettings();
+  const activeId = settings.localProvider ?? DEFAULT_PROVIDER_ID;
+
+  const select = useCallback(
+    (id: string) => {
+      if (id === activeId) return;
+      void saveSettings({
+        ...settings,
+        localProvider: id as typeof settings.localProvider,
+      });
+    },
+    [activeId, settings, saveSettings],
+  );
+
+  return (
+    <div className="gz-provider-toggle" aria-label="AI provider">
+      {PROVIDERS.map((p) => (
+        <button
+          key={p.id}
+          type="button"
+          className={`gz-provider-btn${activeId === p.id ? ` is-active${p.id === "claude" ? " is-active-claude" : ""}` : ""}`}
+          onClick={() => select(p.id)}
+          disabled={disabled}
+          title={`Switch to ${p.label}`}
+        >
+          {p.label}
+        </button>
+      ))}
+    </div>
+  );
+}
 
 type ComposerMetaBarProps = {
   disabled: boolean;
@@ -275,6 +311,7 @@ export function ComposerMetaBar({
         </div>
       </div>
       <div className="composer-context">
+        <ProviderToggle disabled={disabled} />
         {charCount > 0 && (
           <span
             className="composer-char-count"

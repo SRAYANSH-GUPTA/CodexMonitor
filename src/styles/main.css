@@ -13,6 +13,11 @@
   transition: grid-template-columns 220ms ease;
 }
 
+/* No right panel — main takes full width */
+.main.main-no-right-panel {
+  grid-template-columns: minmax(0, 1fr) !important;
+}
+
 .app.reduced-transparency .main {
   background: var(--surface-messages);
 }

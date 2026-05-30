@@ -227,11 +227,17 @@ type UseMainAppLayoutSurfacesArgs = {
   dismissErrorToast: LayoutNodesOptions["primary"]["errorToastsProps"]["onDismiss"];
   showDebugButton: boolean;
   handleDebugClick: () => void;
+  rightPanelCollapsed: boolean;
+  expandRightPanel: () => void;
+  collapseRightPanel: () => void;
 };
 
 type MainAppLayoutSurfacesContext = UseMainAppLayoutSurfacesArgs & {
   sidebarRateLimits: SidebarProps["accountRateLimits"];
   sidebarAccount: SidebarProps["accountInfo"];
+  rightPanelCollapsed: boolean;
+  expandRightPanel: () => void;
+  collapseRightPanel: () => void;
 };
 
 function buildPrimarySurface({
@@ -377,6 +383,9 @@ function buildPrimarySurface({
   dismissErrorToast,
   showDebugButton,
   handleDebugClick,
+  rightPanelCollapsed,
+  expandRightPanel,
+  collapseRightPanel,
 }: MainAppLayoutSurfacesContext): LayoutNodesOptions["primary"] {
   return {
     sidebarProps: {
@@ -408,6 +417,7 @@ function buildPrimarySurface({
       onCancelSwitchAccount,
       accountSwitching,
       onOpenSettings: sidebarHandlers.onOpenSettings,
+      onOpenMarketplace: sidebarHandlers.onOpenMarketplace,
       onOpenDebug: handleDebugClick,
       showDebugButton,
       onAddWorkspace: handleAddWorkspace,
@@ -601,6 +611,8 @@ function buildPrimarySurface({
       accountRateLimits: homeRateLimits,
       usageShowRemaining: appSettings.usageShowRemaining,
       accountInfo: homeAccount,
+      gitSidebarOpen: !rightPanelCollapsed,
+      onToggleGitSidebar: rightPanelCollapsed ? expandRightPanel : collapseRightPanel,
       onSelectThread: (workspaceId, threadId) => {
         threadNavigation.exitDiffView();
         threadNavigation.clearDraftState();
@@ -1103,6 +1115,9 @@ export function useMainAppLayoutSurfaces({
   dismissErrorToast,
   showDebugButton,
   handleDebugClick,
+  rightPanelCollapsed,
+  expandRightPanel,
+  collapseRightPanel,
 }: UseMainAppLayoutSurfacesArgs): LayoutNodesOptions {
   const sidebarRateLimits = activeWorkspace ? activeRateLimits : homeRateLimits;
   const sidebarAccount = activeWorkspace ? activeAccount : homeAccount;
@@ -1266,6 +1281,9 @@ export function useMainAppLayoutSurfaces({
     dismissErrorToast,
     showDebugButton,
     handleDebugClick,
+    rightPanelCollapsed,
+    expandRightPanel,
+    collapseRightPanel,
     sidebarRateLimits,
     sidebarAccount,
   };

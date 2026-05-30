@@ -18,6 +18,332 @@
   overflow-x: hidden;
 }
 
+/* ── Gen-Z Bold Hero ──────────────────────────────────────────────────────── */
+
+.home-genz {
+  background: #080808;
+  padding: 0 !important;
+  gap: 0 !important;
+  overflow: hidden !important;
+  position: relative;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.home-genz-bg-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.028) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.028) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.home-genz-hero {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0;
+  padding: 0 clamp(24px, 6vw, 80px);
+  max-width: 100%;
+  width: 100%;
+}
+
+.home-genz-eyebrow {
+  font-size: clamp(10px, 1.1vw, 13px);
+  font-weight: 700;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: #ff4d00;
+  margin-bottom: clamp(12px, 2.5vw, 28px);
+  opacity: 0.85;
+}
+
+.home-genz-headline {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin: 0 0 clamp(20px, 3.5vw, 40px);
+  line-height: 0.88;
+  font-family: "Inter", "SF Pro Display", system-ui, -apple-system, sans-serif;
+}
+
+.home-genz-line-orange,
+.home-genz-line-white {
+  display: block;
+  font-size: clamp(64px, 11.5vw, 150px);
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  line-height: 0.92;
+  white-space: nowrap;
+}
+
+.home-genz-line-orange {
+  color: #ff4d00;
+}
+
+.home-genz-line-white {
+  color: #ffffff;
+}
+
+.home-genz-sub {
+  font-size: clamp(13px, 1.4vw, 17px);
+  font-weight: 450;
+  color: rgba(255, 255, 255, 0.38);
+  letter-spacing: 0.01em;
+  margin: 0 0 clamp(28px, 4vw, 48px);
+  max-width: 420px;
+  line-height: 1.55;
+}
+
+.home-genz-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.home-genz-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 28px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  border: none;
+  transition: transform 0.12s ease, box-shadow 0.12s ease, opacity 0.12s ease;
+  white-space: nowrap;
+}
+
+.home-genz-btn:hover {
+  transform: translateY(-2px);
+}
+
+.home-genz-btn:active {
+  transform: scale(0.96);
+}
+
+.home-genz-btn-primary {
+  background: #ff4d00;
+  color: #ffffff;
+  box-shadow: 0 4px 24px rgba(255, 77, 0, 0.38);
+}
+
+.home-genz-btn-primary:hover {
+  box-shadow: 0 8px 32px rgba(255, 77, 0, 0.55);
+}
+
+.home-genz-btn-ghost {
+  background: transparent;
+  color: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.home-genz-btn-ghost:hover {
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.35);
+  box-shadow: 0 4px 20px rgba(255, 255, 255, 0.06);
+}
+
+/* Source control toggle button — top-right overlay */
+.home-genz-scm-btn {
+  position: absolute;
+  top: clamp(14px, 2.5vw, 24px);
+  right: clamp(14px, 2.5vw, 24px);
+  z-index: 10;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.45);
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease, transform 0.12s ease;
+  backdrop-filter: blur(8px);
+}
+
+.home-genz-scm-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.85);
+  border-color: rgba(255, 255, 255, 0.22);
+  transform: translateY(-1px);
+}
+
+.home-genz-scm-btn.is-active {
+  background: rgba(255, 77, 0, 0.18);
+  color: #ff4d00;
+  border-color: rgba(255, 77, 0, 0.4);
+}
+
+.home-genz-scm-btn.is-active:hover {
+  background: rgba(255, 77, 0, 0.28);
+}
+
+/* Home is full-screen — sidebar removed from DOM, collapse its grid column */
+.app.show-home {
+  grid-template-columns: 1fr !important;
+}
+
+/* Hide window chrome elements on home for true full-screen feel */
+.app.show-home .drag-strip,
+.app.show-home .titlebar-controls {
+  display: none !important;
+}
+
+.home-genz-corner-text {
+  position: absolute;
+  bottom: clamp(20px, 4vw, 40px);
+  right: clamp(20px, 4vw, 40px);
+  font-size: clamp(10px, 1.1vw, 13px);
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  color: rgba(255, 255, 255, 0.2);
+  writing-mode: vertical-rl;
+  z-index: 1;
+  user-select: none;
+}
+
+/* ── Recent Projects panel — bottom-right ────────────────────────────────── */
+
+.home-genz-recent {
+  position: absolute;
+  bottom: clamp(20px, 4vw, 44px);
+  right: clamp(20px, 4vw, 48px);
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 260px;
+  max-width: 320px;
+}
+
+.home-genz-recent-label {
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.22);
+  padding-bottom: 2px;
+}
+
+.home-genz-recent-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.home-genz-recent-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  background: rgba(10, 10, 14, 0.72);
+  backdrop-filter: blur(12px);
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.13s, border-color 0.13s, transform 0.12s;
+}
+
+.home-genz-recent-item:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.14);
+  transform: translateX(-2px);
+}
+
+.home-genz-recent-item.is-active .home-genz-recent-dot {
+  background: #ff9f43;
+  box-shadow: 0 0 0 3px rgba(255, 159, 67, 0.2);
+  animation: home-recent-pulse 1.4s ease-in-out infinite;
+}
+
+.home-genz-recent-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background: rgba(255, 255, 255, 0.2);
+  transition: background 0.15s;
+}
+
+.home-genz-recent-item:hover .home-genz-recent-dot {
+  background: #7c6eff;
+}
+
+.home-genz-recent-copy {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.home-genz-recent-name {
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.82);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  letter-spacing: -0.1px;
+}
+
+.home-genz-recent-item:hover .home-genz-recent-name {
+  color: #ffffff;
+}
+
+.home-genz-recent-msg {
+  font-size: 10.5px;
+  color: rgba(255, 255, 255, 0.28);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.home-genz-recent-time {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.2);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+@keyframes home-recent-pulse {
+  0%, 100% { opacity: 0.7; }
+  50% { opacity: 1; }
+}
+
+@media (max-width: 600px) {
+  .home-genz-line-orange,
+  .home-genz-line-white {
+    font-size: clamp(48px, 14vw, 80px);
+  }
+
+  .home-genz-corner-text {
+    display: none;
+  }
+
+  .home-genz-recent {
+    display: none;
+  }
+}
+
 .app.layout-desktop .home {
   height: 100%;
 }

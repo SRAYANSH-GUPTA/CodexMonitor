@@ -645,7 +645,7 @@ Output the graph in a format compatible with D3.js force-directed layout."#.into
 async fn fetch_github_skills(query: &str) -> Vec<MarketplaceSkill> {
     let client = reqwest::Client::builder()
         .user_agent(format!(
-            "CodexMonitor/{} (https://github.com/CodexMonitor)",
+            "Hopper/{} (https://github.com/Hopper)",
             env!("CARGO_PKG_VERSION")
         ))
         .timeout(std::time::Duration::from_secs(10))

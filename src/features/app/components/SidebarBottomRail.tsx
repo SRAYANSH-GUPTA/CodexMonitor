@@ -1,5 +1,6 @@
 import ScrollText from "lucide-react/dist/esm/icons/scroll-text";
 import Settings from "lucide-react/dist/esm/icons/settings";
+import Store from "lucide-react/dist/esm/icons/store";
 import User from "lucide-react/dist/esm/icons/user";
 import X from "lucide-react/dist/esm/icons/x";
 import type { ModelOption } from "@/types";
@@ -28,6 +29,7 @@ type SidebarBottomRailProps = {
   creditsLabel: string | null;
   showWeekly: boolean;
   onOpenSettings: () => void;
+  onOpenMarketplace?: () => void;
   onOpenDebug: () => void;
   showDebugButton: boolean;
   showAccountSwitcher: boolean;
@@ -75,6 +77,7 @@ export function SidebarBottomRail({
   creditsLabel,
   showWeekly,
   onOpenSettings,
+  onOpenMarketplace,
   onOpenDebug,
   showDebugButton,
   showAccountSwitcher,
@@ -294,8 +297,21 @@ export function SidebarBottomRail({
           </div>
         )}
         <div className="sidebar-utility-actions">
+          {onOpenMarketplace && (
+            <button
+              className="ghost sidebar-labeled-button sidebar-utility-button sidebar-bottom-marketplace-btn"
+              type="button"
+              onClick={onOpenMarketplace}
+              aria-label="Skill Marketplace"
+            >
+              <span className="sidebar-labeled-button-icon" aria-hidden>
+                <Store size={14} aria-hidden />
+              </span>
+              <span>Marketplace</span>
+            </button>
+          )}
           <button
-            className="ghost sidebar-labeled-button sidebar-utility-button"
+            className="ghost sidebar-labeled-button sidebar-utility-button sidebar-bottom-settings-btn"
             type="button"
             onClick={onOpenSettings}
             aria-label="Open settings"

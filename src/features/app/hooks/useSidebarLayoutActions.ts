@@ -1,11 +1,12 @@
 import { useCallback } from "react";
 
 import type { WorkspaceInfo, WorkspaceSettings } from "../../../types";
+import type { SettingsSection } from "@app/hooks/useSettingsModalState";
 
 type AppTab = "home" | "projects" | "codex" | "git" | "log";
 
 type UseSidebarLayoutActionsOptions = {
-  openSettings: () => void;
+  openSettings: (section?: SettingsSection) => void;
   resetPullRequestSelection: () => void;
   clearDraftState: () => void;
   clearDraftStateIfDifferentWorkspace: (workspaceId: string) => void;
@@ -58,6 +59,10 @@ export function useSidebarLayoutActions({
 }: UseSidebarLayoutActionsOptions) {
   const onOpenSettings = useCallback(() => {
     openSettings();
+  }, [openSettings]);
+
+  const onOpenMarketplace = useCallback(() => {
+    openSettings("marketplace");
   }, [openSettings]);
 
   const onSelectHome = useCallback(() => {
@@ -184,6 +189,7 @@ export function useSidebarLayoutActions({
 
   return {
     onOpenSettings,
+    onOpenMarketplace,
     onSelectHome,
     onSelectWorkspace,
     onConnectWorkspace,

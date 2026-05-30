@@ -1,0 +1,996 @@
+/* ─── Gen-Z Bold Theme — Hopper ───────────────────────────────────────
+   Design language: minimal chrome, strong type, high contrast, clean grid.
+   All rules here are overrides layered on top of the base theme.
+─────────────────────────────────────────────────────────────────────────── */
+
+/* ── Typography scale ─────────────────────────────────────────────────────── */
+
+.app {
+  --gz-font: "Inter", "SF Pro Display", system-ui, -apple-system, sans-serif;
+  --gz-weight-body: 450;
+  --gz-weight-ui: 500;
+  --gz-weight-label: 600;
+  --gz-weight-heading: 750;
+  --gz-weight-bold: 800;
+  --gz-radius-sm: 8px;
+  --gz-radius-md: 12px;
+  --gz-radius-lg: 18px;
+  --gz-radius-pill: 999px;
+  /* Accent override — electric indigo */
+  --gz-accent: #7c6eff;
+  --gz-accent-glow: rgba(124, 110, 255, 0.22);
+  --gz-accent-soft: rgba(124, 110, 255, 0.12);
+  /* Surface tweaks */
+  --gz-sidebar-bg: rgba(10, 10, 14, 0.97);
+  --gz-sidebar-border: rgba(255,255,255,0.055);
+  font-family: var(--gz-font);
+  /* Global dot-grid background */
+  background-color: #0a0a0e !important;
+  background-image: radial-gradient(circle, rgba(255,255,255,0.045) 1px, transparent 1px) !important;
+  background-size: 28px 28px !important;
+}
+
+/* ── Global surface — transparent so dot-grid shows through ──────────────── */
+
+.main,
+.content,
+.content-layer,
+.chat-pane,
+.messages {
+  background: transparent !important;
+}
+
+/* ── Sidebar — VS Code-style layout ───────────────────────────────────────── */
+
+.sidebar {
+  background: var(--gz-sidebar-bg) !important;
+  border-right: 1px solid var(--gz-sidebar-border) !important;
+  padding: 0 !important;
+  flex-direction: row !important;
+  gap: 0 !important;
+}
+
+/* Activity bar — VS Code-style narrow strip */
+.sidebar-activity-bar {
+  width: 48px;
+  min-width: 48px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  background: #111113;
+  border-right: 1px solid rgba(255,255,255,0.055);
+  padding-top: var(--sidebar-top-padding, 36px);
+  padding-bottom: 14px;
+  gap: 0;
+  flex-shrink: 0;
+}
+
+.sidebar-activity-top {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  width: 100%;
+}
+
+/* VS Code-style icon button */
+.sidebar-activity-btn {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.4);
+  cursor: pointer;
+  border-radius: 0;
+  transition: color 0.12s ease, background 0.12s ease;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.sidebar-activity-btn:hover {
+  color: rgba(255, 255, 255, 0.85);
+  background: rgba(255,255,255,0.04);
+}
+
+.sidebar-activity-btn.is-active {
+  color: #ffffff;
+}
+
+/* VS Code orange left-edge active indicator */
+.sidebar-activity-btn.is-active::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 10px;
+  bottom: 10px;
+  width: 2px;
+  background: #ff4d00;
+  border-radius: 0 2px 2px 0;
+}
+
+/* Sidebar panel — takes remaining width */
+.sidebar-panel {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding-top: var(--sidebar-top-padding, 36px);
+}
+
+/* Inner spacing for explorer panel items */
+.sidebar-panel .sidebar-header {
+  padding: 0 12px;
+}
+
+.sidebar-panel .sidebar-search-bar {
+  padding: 0 12px 8px;
+}
+
+.sidebar-panel .sidebar-body {
+  padding: 0 4px 0 12px;
+}
+
+.sidebar-panel .sidebar-bottom-rail {
+  padding: 0 12px 16px;
+}
+
+/* Git / Plan panel inside sidebar — fills full height */
+.sidebar-git-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-height: 0;
+  padding-top: 8px;
+}
+
+/* Right panel is fully removed — hide any lingering references */
+.right-panel,
+.right-panel-resizer,
+.right-panel-divider,
+.right-panel-drag-strip {
+  display: none !important;
+}
+
+/* ── Sidebar content area ────────────────────────────────────────────────── */
+
+/* Section headers — all-caps, bold, dim */
+.sidebar-section-title,
+.workspace-group-label,
+.worktree-header,
+.thread-bucket-label {
+  font-size: 10px !important;
+  font-weight: var(--gz-weight-bold) !important;
+  letter-spacing: 0.9px !important;
+  text-transform: uppercase !important;
+  color: rgba(255,255,255,0.28) !important;
+}
+
+/* Sidebar header (Projects title row) */
+.sidebar-header {
+  min-height: 36px !important;
+}
+
+.sidebar-header .subtitle {
+  font-size: 13px !important;
+  font-weight: var(--gz-weight-label) !important;
+  color: rgba(255,255,255,0.75) !important;
+  letter-spacing: -0.1px !important;
+}
+
+/* Header icon buttons (sort, refresh, search) */
+.sidebar-sort-toggle,
+.sidebar-search-toggle,
+.sidebar-refresh-toggle,
+.sidebar-title-add {
+  color: rgba(255,255,255,0.35) !important;
+  border-radius: var(--gz-radius-sm) !important;
+}
+
+.sidebar-sort-toggle:hover,
+.sidebar-search-toggle:hover,
+.sidebar-refresh-toggle:hover,
+.sidebar-title-add:hover {
+  color: rgba(255,255,255,0.85) !important;
+  background: rgba(255,255,255,0.06) !important;
+}
+
+/* Search input */
+.sidebar-search-input {
+  font-size: 12.5px !important;
+  font-weight: var(--gz-weight-ui) !important;
+  border-radius: var(--gz-radius-sm) !important;
+  background: rgba(255,255,255,0.04) !important;
+  border: 1px solid rgba(255,255,255,0.08) !important;
+  color: rgba(255,255,255,0.85) !important;
+}
+
+.sidebar-search-input:focus {
+  border-color: rgba(124,110,255,0.4) !important;
+  box-shadow: 0 0 0 2px rgba(124,110,255,0.1) !important;
+}
+
+.sidebar-search-input::placeholder {
+  color: rgba(255,255,255,0.22) !important;
+}
+
+/* Workspace rows — project cards */
+.workspace-row::before {
+  border-radius: var(--gz-radius-sm) !important;
+  background: rgba(255,255,255,0.03) !important;
+  border: 1px solid rgba(255,255,255,0.06) !important;
+  box-shadow: none !important;
+}
+
+.workspace-row:hover::before {
+  background: rgba(255,255,255,0.06) !important;
+  border-color: rgba(255,255,255,0.1) !important;
+  box-shadow: none !important;
+}
+
+.workspace-row.active::before {
+  background: var(--gz-accent-soft) !important;
+  border-color: rgba(124,110,255,0.3) !important;
+}
+
+/* Workspace name */
+.workspace-name {
+  font-size: 13px !important;
+  font-weight: var(--gz-weight-label) !important;
+  letter-spacing: -0.2px !important;
+  color: rgba(255,255,255,0.8) !important;
+}
+
+.workspace-row.active .workspace-name {
+  color: #ffffff !important;
+}
+
+/* Workspace summary / subtitle */
+.workspace-summary,
+.workspace-path {
+  font-size: 10px !important;
+  color: rgba(255,255,255,0.28) !important;
+}
+
+/* + button on workspace rows */
+.workspace-add,
+.all-threads-add {
+  border-color: rgba(255,255,255,0.1) !important;
+  background: rgba(255,255,255,0.04) !important;
+  color: rgba(255,255,255,0.4) !important;
+}
+
+/* Worktree rows */
+.worktree-row {
+  border-radius: var(--gz-radius-sm) !important;
+  background: rgba(255,255,255,0.025) !important;
+  border-color: rgba(255,255,255,0.06) !important;
+  box-shadow: none !important;
+}
+
+.worktree-row:hover {
+  background: rgba(255,255,255,0.05) !important;
+  border-color: rgba(255,255,255,0.1) !important;
+  box-shadow: none !important;
+}
+
+.worktree-row.active {
+  background: var(--gz-accent-soft) !important;
+  border-color: rgba(124,110,255,0.3) !important;
+}
+
+.worktree-label {
+  font-size: 12.5px !important;
+  font-weight: var(--gz-weight-label) !important;
+  color: rgba(255,255,255,0.8) !important;
+}
+
+.worktree-meta {
+  color: rgba(255,255,255,0.28) !important;
+}
+
+/* Thread rows */
+.thread-row {
+  border-radius: var(--gz-radius-sm) !important;
+  background: transparent !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+  transition: background 0.12s, border-color 0.12s !important;
+}
+
+.thread-row:hover {
+  background: rgba(255,255,255,0.04) !important;
+  border-color: rgba(255,255,255,0.07) !important;
+  box-shadow: none !important;
+  color: rgba(255,255,255,0.9) !important;
+}
+
+.thread-row.active {
+  background: var(--gz-accent-soft) !important;
+  border-color: rgba(124,110,255,0.25) !important;
+  color: #ffffff !important;
+}
+
+.thread-name {
+  font-size: 12px !important;
+  font-weight: var(--gz-weight-ui) !important;
+  color: rgba(255,255,255,0.72) !important;
+}
+
+.thread-row:hover .thread-name,
+.thread-row.active .thread-name {
+  color: #ffffff !important;
+}
+
+.thread-time {
+  color: rgba(255,255,255,0.25) !important;
+  font-size: 10px !important;
+}
+
+/* Thread status dots keep their color — just adjust glow */
+.thread-status.processing { box-shadow: 0 0 0 3px rgba(255,159,67,0.15) !important; }
+.thread-status.reviewing  { box-shadow: 0 0 0 3px rgba(47,209,196,0.15) !important; }
+.thread-status.unread     { box-shadow: 0 0 0 3px rgba(77,163,255,0.15) !important; }
+.thread-status.ready      { box-shadow: 0 0 0 3px rgba(63,228,126,0.12) !important; }
+
+/* Thread state chips */
+.thread-state-chip {
+  font-size: 9px !important;
+  font-weight: var(--gz-weight-label) !important;
+  border-radius: var(--gz-radius-pill) !important;
+}
+
+/* Sidebar section count pill */
+.sidebar-section-count,
+.worktree-header-count {
+  background: rgba(255,255,255,0.05) !important;
+  border-color: rgba(255,255,255,0.08) !important;
+  color: rgba(255,255,255,0.3) !important;
+  font-size: 10px !important;
+}
+
+/* Thread separator line */
+.thread-list-separator {
+  background: rgba(255,255,255,0.05) !important;
+}
+
+/* Worktree header icon wrap */
+.worktree-header-icon-wrap {
+  background: rgba(255,255,255,0.05) !important;
+  border-color: rgba(255,255,255,0.08) !important;
+}
+
+/* "Load more" button */
+.thread-more {
+  color: rgba(255,255,255,0.28) !important;
+  font-size: 11px !important;
+}
+
+.thread-more:hover {
+  color: rgba(255,255,255,0.7) !important;
+}
+
+/* ── Sidebar Bottom Rail ──────────────────────────────────────────────────── */
+
+.sidebar-bottom-rail {
+  border-top: 1px solid var(--gz-sidebar-border) !important;
+  padding: 10px 4px 12px !important;
+  gap: 4px !important;
+}
+
+/* Usage kicker label */
+.sidebar-usage-kicker {
+  font-size: 9px !important;
+  font-weight: var(--gz-weight-bold) !important;
+  letter-spacing: 0.8px !important;
+  color: rgba(255,255,255,0.25) !important;
+}
+
+.sidebar-usage-model-tag {
+  font-size: 9px !important;
+  background: rgba(255,255,255,0.06) !important;
+  color: rgba(255,255,255,0.35) !important;
+}
+
+.sidebar-usage-name,
+.sidebar-usage-value {
+  font-size: 11px !important;
+  color: rgba(255,255,255,0.7) !important;
+}
+
+.sidebar-usage-credits,
+.sidebar-usage-reset {
+  color: rgba(255,255,255,0.25) !important;
+}
+
+.sidebar-usage-bar {
+  background: rgba(255,255,255,0.06) !important;
+  height: 3px !important;
+  border-radius: 99px !important;
+}
+
+.sidebar-usage-bar-fill {
+  background: linear-gradient(90deg, var(--gz-accent), rgba(124,110,255,0.6)) !important;
+  box-shadow: none !important;
+}
+
+/* Account / labeled buttons in bottom rail */
+.sidebar-labeled-button {
+  border-radius: var(--gz-radius-sm) !important;
+  border-color: rgba(255,255,255,0.07) !important;
+  background: rgba(255,255,255,0.03) !important;
+  color: rgba(255,255,255,0.45) !important;
+}
+
+.sidebar-labeled-button:hover,
+.sidebar-labeled-button.is-open {
+  background: rgba(255,255,255,0.06) !important;
+  border-color: rgba(255,255,255,0.1) !important;
+  color: rgba(255,255,255,0.85) !important;
+  box-shadow: none !important;
+}
+
+.sidebar-labeled-button span:last-child {
+  font-size: 11px !important;
+  font-weight: var(--gz-weight-label) !important;
+}
+
+.sidebar-account-trigger-label {
+  font-size: 11px !important;
+  font-weight: var(--gz-weight-label) !important;
+  color: rgba(255,255,255,0.5) !important;
+}
+
+.sidebar-account-avatar {
+  background: linear-gradient(135deg, rgba(124,110,255,0.3), rgba(124,110,255,0.15)) !important;
+}
+
+/* Provider switcher (Codex/Claude toggle) */
+.sidebar-provider-switcher {
+  border-top-color: var(--gz-sidebar-border) !important;
+  padding: 8px 0 6px !important;
+}
+
+.sidebar-provider-switcher-label {
+  font-size: 9px !important;
+  font-weight: var(--gz-weight-bold) !important;
+  letter-spacing: 0.8px !important;
+  color: rgba(255,255,255,0.25) !important;
+}
+
+.sidebar-provider-toggle {
+  border-radius: var(--gz-radius-sm) !important;
+  border-color: rgba(255,255,255,0.08) !important;
+  background: rgba(255,255,255,0.03) !important;
+  overflow: hidden !important;
+}
+
+.sidebar-provider-toggle-btn {
+  font-size: 11px !important;
+  font-weight: var(--gz-weight-label) !important;
+  color: rgba(255,255,255,0.35) !important;
+}
+
+.sidebar-provider-toggle-btn:hover:not(.is-active) {
+  background: rgba(255,255,255,0.05) !important;
+  color: rgba(255,255,255,0.75) !important;
+}
+
+.sidebar-provider-toggle-btn.is-active {
+  background: rgba(124,110,255,0.18) !important;
+  color: var(--gz-accent) !important;
+  font-weight: var(--gz-weight-bold) !important;
+}
+
+.sidebar-provider-toggle-btn--claude.is-active {
+  background: rgba(209,120,66,0.18) !important;
+  color: #d97706 !important;
+}
+
+.sidebar-provider-model-select {
+  border-radius: var(--gz-radius-sm) !important;
+  border-color: rgba(255,255,255,0.08) !important;
+  background: rgba(255,255,255,0.04) !important;
+  color: rgba(255,255,255,0.7) !important;
+  font-size: 11px !important;
+}
+
+/* Settings, marketplace buttons — icon-only, clean */
+.sidebar-bottom-settings-btn,
+.sidebar-bottom-marketplace-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: var(--gz-radius-sm);
+  border: none;
+  background: transparent;
+  color: rgba(255,255,255,0.4);
+  font-size: 12px;
+  font-weight: var(--gz-weight-label);
+  cursor: pointer;
+  transition: all 0.15s;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.sidebar-bottom-settings-btn:hover,
+.sidebar-bottom-marketplace-btn:hover {
+  background: rgba(255,255,255,0.06);
+  color: rgba(255,255,255,0.85);
+}
+
+.sidebar-bottom-marketplace-btn {
+  color: var(--gz-accent);
+}
+
+.sidebar-bottom-marketplace-btn:hover {
+  background: var(--gz-accent-soft);
+  color: var(--gz-accent);
+}
+
+/* ── Main topbar — minimal ────────────────────────────────────────────────── */
+
+.main-topbar {
+  border-bottom: 1px solid var(--gz-sidebar-border) !important;
+  backdrop-filter: blur(20px) !important;
+}
+
+.workspace-name,
+.workspace-path {
+  font-weight: var(--gz-weight-label) !important;
+}
+
+/* ── Right panel — Tasks ─────────────────────────────────────────────────── */
+
+.right-panel {
+  background: var(--gz-sidebar-bg) !important;
+  border-left: 1px solid var(--gz-sidebar-border) !important;
+}
+
+.right-panel-drag-strip {
+  display: none;
+}
+
+/* Tasks header injected via CSS */
+.right-panel::before {
+  content: "Tasks";
+  display: block;
+  padding: 14px 16px 10px;
+  font-size: 11px;
+  font-weight: var(--gz-weight-bold);
+  letter-spacing: 0.9px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.28);
+  border-bottom: 1px solid var(--gz-sidebar-border);
+  -webkit-user-select: none;
+  user-select: none;
+  pointer-events: none;
+}
+
+/* ── Plan panel — inside right panel ─────────────────────────────────────── */
+
+.plan-panel {
+  padding: 12px 14px !important;
+}
+
+.plan-task {
+  border-radius: var(--gz-radius-sm) !important;
+  font-size: 12px !important;
+  font-weight: var(--gz-weight-ui) !important;
+}
+
+.plan-task.is-active {
+  border-left: 2px solid var(--gz-accent) !important;
+  background: var(--gz-accent-soft) !important;
+}
+
+/* ── Composer dock ────────────────────────────────────────────────────────── */
+
+.composer {
+  padding-bottom: 20px !important;
+}
+
+.composer-box {
+  border-color: rgba(255,255,255,0.1) !important;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.04),
+    0 8px 32px rgba(0,0,0,0.32),
+    0 2px 8px rgba(0,0,0,0.2) !important;
+}
+
+.composer-box textarea {
+  font-size: 14px !important;
+  font-weight: var(--gz-weight-body) !important;
+  line-height: 1.65 !important;
+}
+
+.composer-box textarea::placeholder {
+  font-weight: 400 !important;
+  color: rgba(255,255,255,0.22) !important;
+}
+
+/* Meta bar selects */
+.composer-select {
+  font-size: 11.5px !important;
+  font-weight: var(--gz-weight-label) !important;
+  letter-spacing: 0.1px !important;
+}
+
+/* ── Provider toggle — Claude / Codex pill ────────────────────────────────── */
+
+.gz-provider-toggle {
+  display: flex;
+  align-items: center;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.10);
+  border-radius: var(--gz-radius-pill);
+  padding: 2px;
+  gap: 0;
+  height: 26px;
+}
+
+.gz-provider-btn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 10px;
+  border-radius: var(--gz-radius-pill);
+  border: none;
+  background: transparent;
+  color: rgba(255,255,255,0.45);
+  font-size: 11px;
+  font-weight: var(--gz-weight-label);
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+  letter-spacing: 0.1px;
+}
+
+.gz-provider-btn.is-active {
+  background: var(--gz-accent);
+  color: #fff;
+  box-shadow: 0 1px 6px rgba(124,110,255,0.4);
+}
+
+.gz-provider-btn.is-active-claude {
+  background: linear-gradient(135deg, #d97706, #f59e0b);
+  color: #fff;
+  box-shadow: 0 1px 6px rgba(245,158,11,0.4);
+}
+
+.gz-provider-btn:not(.is-active):hover {
+  color: rgba(255,255,255,0.7);
+  background: rgba(255,255,255,0.06);
+}
+
+/* ── Send button ─────────────────────────────────────────────────────────── */
+
+.composer-send-btn {
+  width: 36px !important;
+  height: 36px !important;
+  border-radius: 10px !important;
+  background: var(--gz-accent) !important;
+  box-shadow: 0 2px 12px rgba(124,110,255,0.5) !important;
+  transition: transform 0.12s, box-shadow 0.12s !important;
+}
+
+.composer-send-btn:hover:not(:disabled) {
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 16px rgba(124,110,255,0.65) !important;
+}
+
+.composer-send-btn:active:not(:disabled) {
+  transform: scale(0.94) !important;
+}
+
+.composer-send-btn.is-stop {
+  background: rgba(255,255,255,0.12) !important;
+  box-shadow: none !important;
+}
+
+/* ── Messages ────────────────────────────────────────────────────────────── */
+
+.message-text {
+  font-size: 14px !important;
+  font-weight: var(--gz-weight-body) !important;
+  line-height: 1.7 !important;
+}
+
+.message-bubble {
+  border-radius: var(--gz-radius-md) !important;
+}
+
+/* User bubbles */
+.message-bubble.is-user {
+  background: var(--gz-accent-soft) !important;
+  border: 1px solid rgba(124,110,255,0.2) !important;
+}
+
+/* ── Code blocks ─────────────────────────────────────────────────────────── */
+
+pre,
+.code-block {
+  border-radius: var(--gz-radius-md) !important;
+  border: 1px solid rgba(255,255,255,0.07) !important;
+  font-size: 12.5px !important;
+}
+
+/* ── Home screen ─────────────────────────────────────────────────────────── */
+
+.home-title {
+  font-weight: var(--gz-weight-bold) !important;
+  letter-spacing: -0.5px !important;
+}
+
+.home-subtitle {
+  font-weight: var(--gz-weight-ui) !important;
+}
+
+/* ── Settings nav ─────────────────────────────────────────────────────────── */
+
+.settings-nav-list {
+  gap: 1px !important;
+}
+
+.settings-nav {
+  border-radius: var(--gz-radius-sm) !important;
+  font-size: 12.5px !important;
+  font-weight: var(--gz-weight-label) !important;
+}
+
+/* ── Scrollbars ──────────────────────────────────────────────────────────── */
+
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.12);
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255,255,255,0.22);
+}
+
+/* ── Marketplace view tweaks ─────────────────────────────────────────────── */
+
+.marketplace-title {
+  font-weight: var(--gz-weight-bold) !important;
+  letter-spacing: -0.4px !important;
+}
+
+.marketplace-card-name {
+  font-weight: var(--gz-weight-label) !important;
+}
+
+.marketplace-cat-btn.is-active {
+  background: var(--gz-accent-soft) !important;
+  border-color: var(--gz-accent) !important;
+  color: var(--gz-accent) !important;
+}
+
+.marketplace-btn--install {
+  background: var(--gz-accent) !important;
+  border-color: var(--gz-accent) !important;
+}
+
+/* ── Workspace Home — Gen-Z redesign ─────────────────────────────────────── */
+
+.workspace-home {
+  background: transparent !important;
+  padding: 48px 56px 40px !important;
+  gap: 28px !important;
+  max-width: 100% !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+/* Hero — project name + path */
+.workspace-home-hero {
+  gap: 8px !important;
+  align-items: flex-start !important;
+  flex-direction: column !important;
+}
+
+.workspace-home-icon {
+  width: 44px !important;
+  height: 44px !important;
+  border-radius: var(--gz-radius-md) !important;
+  border: 1px solid rgba(255,255,255,0.08) !important;
+  background: rgba(255,255,255,0.04) !important;
+  box-shadow: none !important;
+}
+
+.workspace-home-title {
+  font-size: 52px !important;
+  font-weight: var(--gz-weight-bold) !important;
+  letter-spacing: -2px !important;
+  line-height: 1 !important;
+  color: #ffffff !important;
+  text-transform: none !important;
+}
+
+.workspace-home-path {
+  font-size: 12px !important;
+  font-weight: 400 !important;
+  color: rgba(255,255,255,0.3) !important;
+  font-family: var(--code-font-family, monospace) !important;
+  margin-top: 4px !important;
+}
+
+/* Eyebrow label above title */
+.workspace-home-hero::before {
+  content: "WORKSPACE";
+  display: block;
+  font-size: 10px;
+  font-weight: var(--gz-weight-bold);
+  letter-spacing: 1.2px;
+  color: #ff4d00;
+  margin-bottom: 2px;
+}
+
+/* Composer card */
+.workspace-home .composer {
+  border-radius: var(--gz-radius-lg) !important;
+  border: 1px solid rgba(255,255,255,0.08) !important;
+  background: rgba(255,255,255,0.03) !important;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.03),
+    0 8px 32px rgba(0,0,0,0.4) !important;
+  padding: 16px 20px 20px !important;
+}
+
+.workspace-home .composer-input-area {
+  background: transparent !important;
+}
+
+/* Section headers — AGENTS.MD, RECENT RUNS, RECENT THREADS */
+.workspace-home-section-title {
+  font-size: 10px !important;
+  font-weight: var(--gz-weight-bold) !important;
+  letter-spacing: 1px !important;
+  color: rgba(255,255,255,0.28) !important;
+  text-transform: uppercase !important;
+}
+
+.workspace-home-section-meta {
+  font-size: 11px !important;
+  color: rgba(255,255,255,0.25) !important;
+}
+
+/* Icon buttons in section headers */
+.workspace-home-icon-button {
+  border-radius: var(--gz-radius-sm) !important;
+  color: rgba(255,255,255,0.35) !important;
+  background: transparent !important;
+  border: 1px solid rgba(255,255,255,0.07) !important;
+}
+
+.workspace-home-icon-button:hover {
+  background: rgba(255,255,255,0.06) !important;
+  color: rgba(255,255,255,0.8) !important;
+}
+
+/* AGENTS.md card */
+.workspace-home-agent-card {
+  border-radius: var(--gz-radius-md) !important;
+  border: 1px solid rgba(255,255,255,0.07) !important;
+  background: rgba(255,255,255,0.02) !important;
+  padding: 14px !important;
+}
+
+.workspace-home-agent-textarea {
+  background: rgba(0,0,0,0.35) !important;
+  border: 1px solid rgba(255,255,255,0.07) !important;
+  border-radius: var(--gz-radius-sm) !important;
+  color: rgba(255,255,255,0.75) !important;
+  font-size: 13px !important;
+  line-height: 1.6 !important;
+}
+
+.workspace-home-agent-textarea:focus {
+  border-color: rgba(124,110,255,0.4) !important;
+  box-shadow: 0 0 0 3px rgba(124,110,255,0.1) !important;
+}
+
+/* Recent runs cards */
+.workspace-home-run-card {
+  border-radius: var(--gz-radius-md) !important;
+  border: 1px solid rgba(255,255,255,0.07) !important;
+  background: rgba(255,255,255,0.025) !important;
+  box-shadow: none !important;
+  padding: 14px 16px !important;
+}
+
+.workspace-home-run-title {
+  font-size: 14px !important;
+  font-weight: var(--gz-weight-label) !important;
+  color: rgba(255,255,255,0.9) !important;
+}
+
+.workspace-home-run-meta,
+.workspace-home-run-time {
+  font-size: 11px !important;
+  color: rgba(255,255,255,0.28) !important;
+}
+
+/* Thread instance cards */
+.workspace-home-instance {
+  border-radius: var(--gz-radius-sm) !important;
+  border: 1px solid rgba(255,255,255,0.07) !important;
+  background: rgba(255,255,255,0.025) !important;
+  transition: border-color 0.15s, background 0.15s !important;
+}
+
+.workspace-home-instance:hover {
+  border-color: rgba(124,110,255,0.3) !important;
+  background: rgba(124,110,255,0.04) !important;
+}
+
+.workspace-home-instance.is-active {
+  border-color: var(--gz-accent) !important;
+  background: var(--gz-accent-soft) !important;
+  box-shadow: none !important;
+}
+
+.workspace-home-instance.is-running {
+  border-color: rgba(34,211,238,0.5) !important;
+  box-shadow: none !important;
+}
+
+.workspace-home-instance-title {
+  font-size: 12.5px !important;
+  font-weight: var(--gz-weight-label) !important;
+  color: rgba(255,255,255,0.85) !important;
+}
+
+.workspace-home-instance-status {
+  font-size: 11px !important;
+  color: rgba(255,255,255,0.3) !important;
+}
+
+.workspace-home-instance-status.is-running {
+  color: rgba(34,211,238,0.9) !important;
+}
+
+/* Empty state placeholders */
+.workspace-home-empty {
+  border-radius: var(--gz-radius-sm) !important;
+  border: 1px dashed rgba(255,255,255,0.08) !important;
+  background: transparent !important;
+  color: rgba(255,255,255,0.2) !important;
+  font-size: 12px !important;
+  padding: 14px 16px !important;
+}
+
+/* Model selector controls */
+.workspace-home-control.composer-select-wrap .open-app-button {
+  border-color: rgba(255,255,255,0.08) !important;
+  background: rgba(255,255,255,0.04) !important;
+  border-radius: var(--gz-radius-sm) !important;
+}
+
+.workspace-home-control.composer-select-wrap .composer-select {
+  color: rgba(255,255,255,0.7) !important;
+  font-weight: var(--gz-weight-label) !important;
+}
+
+/* Git init banner */
+.workspace-home-git-banner {
+  border-radius: var(--gz-radius-md) !important;
+  border: 1px solid rgba(255,255,255,0.07) !important;
+  background: rgba(255,255,255,0.02) !important;
+}

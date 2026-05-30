@@ -1,23 +1,23 @@
 # App-Server Events Reference (Codex `19702e190ebf16f789617ca5f16bfc373c238fe7`)
 
 This document helps agents quickly answer:
-- Which app-server events CodexMonitor supports right now.
-- Which app-server requests CodexMonitor sends right now.
-- Where to look in CodexMonitor to add support.
+- Which app-server events Hopper supports right now.
+- Which app-server requests Hopper sends right now.
+- Where to look in Hopper to add support.
 - Where to look in `../Codex` to compare event lists and find emitters.
 
 When updating this document:
 1. Fetch latest refs with `git -C ../Codex fetch --all --prune`.
 2. Update the Codex hash in the title using `git -C ../Codex rev-parse origin/main`.
-3. Compare Codex events vs CodexMonitor routing.
-4. Compare Codex client request methods vs CodexMonitor outgoing request methods.
-5. Compare Codex server request methods vs CodexMonitor inbound request handling.
+3. Compare Codex events vs Hopper routing.
+4. Compare Codex client request methods vs Hopper outgoing request methods.
+5. Compare Codex server request methods vs Hopper inbound request handling.
 6. Update supported and missing lists below.
 
 Related project skill:
 - `.codex/skills/app-server-events-sync/SKILL.md`
 
-## Where To Look In CodexMonitor
+## Where To Look In Hopper
 
 Primary app-server event source of truth (methods + typed parsing helpers):
 - `src/utils/appServerEvents.ts`
@@ -48,11 +48,11 @@ Primary outgoing request layer:
 - `src/services/tauri.ts`
 - `src-tauri/src/shared/codex_core.rs`
 - `src-tauri/src/codex/mod.rs`
-- `src-tauri/src/bin/codex_monitor_daemon.rs`
+- `src-tauri/src/bin/hopper_daemon.rs`
 
 ## Supported Notifications (Codex v2)
 
-These are the current Codex v2 `ServerNotification` methods that CodexMonitor
+These are the current Codex v2 `ServerNotification` methods that Hopper
 supports in `src/utils/appServerEvents.ts` (`SUPPORTED_APP_SERVER_METHODS`) and
 then either routes in `useAppServerEvents.ts` or handles in feature-specific
 subscriptions.
@@ -86,7 +86,7 @@ subscriptions.
 - `turn/plan/updated`
 - `turn/started`
 
-## Additional Stream Methods Handled In CodexMonitor
+## Additional Stream Methods Handled In Hopper
 
 These arrive on the same frontend event stream but are not Codex v2
 `ServerNotification` methods:
@@ -97,8 +97,8 @@ These arrive on the same frontend event stream but are not Codex v2
   `item/permissions/requestApproval`, via suffix match in
   `isApprovalRequestMethod(method)`
 - `item/tool/requestUserInput` (a Codex v2 server request, not a notification)
-- `codex/backgroundThread` (CodexMonitor synthetic bridge event)
-- `codex/connected` (CodexMonitor synthetic bridge event)
+- `codex/backgroundThread` (Hopper synthetic bridge event)
+- `codex/connected` (Hopper synthetic bridge event)
 - `codex/event/skills_update_available` (handled via
   `isSkillsUpdateAvailableEvent(...)` in `useSkills.ts`)
 
@@ -109,7 +109,7 @@ Codex currently exposes two compaction signals:
 - Preferred: `item/started` + `item/completed` with `item.type = "contextCompaction"` (`ThreadItem::ContextCompaction`).
 - Deprecated: `thread/compacted` (`ContextCompactedNotification`).
 
-CodexMonitor status:
+Hopper status:
 
 - It routes `item/started` and `item/completed`, so the preferred signal reaches the frontend event layer.
 - It renders/stores `contextCompaction` items via the normal item lifecycle.
@@ -144,9 +144,9 @@ events are currently not routed:
 - `windows/worldWritableWarning`
 - `windowsSandbox/setupCompleted`
 
-## Supported Requests (CodexMonitor -> App-Server, v2)
+## Supported Requests (Hopper -> App-Server, v2)
 
-These are v2 request methods CodexMonitor currently sends to Codex app-server:
+These are v2 request methods Hopper currently sends to Codex app-server:
 
 - `thread/start`
 - `thread/resume`
@@ -175,7 +175,7 @@ Notes:
 
 ## Missing Client Requests (Codex v2 ClientRequest Methods)
 
-Compared against Codex v2 request methods, CodexMonitor currently does not send:
+Compared against Codex v2 request methods, Hopper currently does not send:
 
 - `account/logout`
 - `command/exec`
@@ -223,7 +223,7 @@ Compared against Codex v2 request methods, CodexMonitor currently does not send:
 - `thread/unsubscribe`
 - `windowsSandbox/setupStart`
 
-## Server Requests (App-Server -> CodexMonitor, v2)
+## Server Requests (App-Server -> Hopper, v2)
 
 Supported server requests:
 
@@ -259,7 +259,7 @@ Use this workflow to update the lists above:
    - `git -C ../Codex fetch --all --prune && git -C ../Codex rev-parse origin/main`
 2. List Codex v2 notification methods:
    - `git -C ../Codex show origin/main:codex-rs/app-server-protocol/src/protocol/common.rs | awk '/server_notification_definitions! \\{/,/client_notification_definitions! \\{/' | rg -N -o '=>\\s*\"[^\"]+\"|rename = \"[^\"]+\"' | sed -E 's/.*\"([^\"]+)\".*/\\1/' | sort -u`
-3. List CodexMonitor routed methods:
+3. List Hopper routed methods:
    - `rg -n \"SUPPORTED_APP_SERVER_METHODS\" src/utils/appServerEvents.ts`
 4. Update the Supported and Missing sections.
 
@@ -273,7 +273,7 @@ Use this workflow to update request support lists:
    - `git -C ../Codex show origin/main:codex-rs/app-server-protocol/src/protocol/common.rs | awk '/client_request_definitions! \\{/,/\\/\\/\\/ DEPRECATED APIs below/' | rg -N -o '=>\\s*\"[^\"]+\"\\s*\\{' | sed -E 's/.*\"([^\"]+)\".*/\\1/' | sort -u`
 3. List Codex server request methods:
    - `git -C ../Codex show origin/main:codex-rs/app-server-protocol/src/protocol/common.rs | awk '/server_request_definitions! \\{/,/\\/\\/\\/ DEPRECATED APIs below/' | rg -N -o '=>\\s*\"[^\"]+\"\\s*\\{' | sed -E 's/.*\"([^\"]+)\".*/\\1/' | sort -u`
-4. List CodexMonitor outgoing requests:
+4. List Hopper outgoing requests:
    - `perl -0777 -ne 'while(/send_request_for_workspace\\(\\s*&[^,]+\\s*,\\s*\"([^\"]+)\"/g){print \"$1\\n\"}' src-tauri/src/shared/codex_core.rs | sort -u`
 5. Update the Supported Requests, Missing Client Requests, and Server Requests sections.
 
@@ -296,7 +296,7 @@ Use this when the method list is unchanged but behavior looks off.
    - `git -C ../Codex show origin/main:codex-rs/app-server-protocol/src/protocol/v2.rs | rg -n \"enum ThreadItem|CommandExecution|FileChange|McpToolCall|EnteredReviewMode|ExitedReviewMode|ContextCompaction\"`
 6. Check for camelCase vs snake_case mismatches:
    - The protocol uses `#[serde(rename_all = \"camelCase\")]`, but fields are often declared in snake_case.
-   - CodexMonitor generally defends against this by checking both forms (for example in `threadNormalize.ts` and `useAppServerEvents.ts`), while centralizing method/type parsing in `appServerEvents.ts`.
+   - Hopper generally defends against this by checking both forms (for example in `threadNormalize.ts` and `useAppServerEvents.ts`), while centralizing method/type parsing in `appServerEvents.ts`.
 7. If a schema change is found, fix it at the edges first:
    - Prefer updating `src/utils/appServerEvents.ts`, `useAppServerEvents.ts`, and `threadNormalize.ts` rather than spreading conditionals into components.
 
@@ -316,8 +316,8 @@ Use this when the method list is unchanged but behavior looks off.
   - Stored in `useThreadsReducer.ts` (`turnDiffByThread`)
   - Exposed by `useThreads.ts` for UI consumers
 - Steering behavior while a turn is processing:
-  - CodexMonitor attempts `turn/steer` only when steer capability is enabled, the thread is processing, and an active turn id exists.
-  - If `turn/steer` fails, CodexMonitor does not fall back to `turn/start`; it clears stale processing/turn state when applicable, surfaces an error, and returns `steer_failed`.
+  - Hopper attempts `turn/steer` only when steer capability is enabled, the thread is processing, and an active turn id exists.
+  - If `turn/steer` fails, Hopper does not fall back to `turn/start`; it clears stale processing/turn state when applicable, surfaces an error, and returns `steer_failed`.
   - Local queue fallback on `steer_failed` is handled in the composer queued-send flow (`useQueuedSend`), not by all direct `sendUserMessageToThread` callers.
 - Feature toggles in Settings:
   - `experimentalFeature/list` is an app-server request.

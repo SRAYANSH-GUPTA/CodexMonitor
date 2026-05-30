@@ -6,6 +6,7 @@ type UseAppShellOrchestrationOptions = {
   isCompact: boolean;
   isPhone: boolean;
   isTablet: boolean;
+  showHome: boolean;
   sidebarCollapsed: boolean;
   rightPanelCollapsed: boolean;
   shouldReduceTransparency: boolean;
@@ -27,6 +28,7 @@ export function useAppShellOrchestration({
   isCompact,
   isPhone,
   isTablet,
+  showHome,
   sidebarCollapsed,
   rightPanelCollapsed,
   shouldReduceTransparency,
@@ -53,7 +55,7 @@ export function useAppShellOrchestration({
     shouldReduceTransparency ? " reduced-transparency" : ""
   }${!isCompact && sidebarCollapsed ? " sidebar-collapsed" : ""}${
     !isCompact && rightPanelCollapsed ? " right-panel-collapsed" : ""
-  }${isWindows ? " is-windows" : ""}`;
+  }${isWindows ? " is-windows" : ""}${showHome ? " show-home" : ""}`;
 
   const appStyle = useMemo<CSSProperties>(
     () => ({

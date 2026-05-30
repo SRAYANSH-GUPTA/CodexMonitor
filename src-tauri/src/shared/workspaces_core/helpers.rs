@@ -162,7 +162,7 @@ mod tests {
     static ENV_LOCK: Mutex<()> = Mutex::new(());
 
     fn make_temp_dir() -> std::path::PathBuf {
-        let dir = std::env::temp_dir().join(format!("codex-monitor-{}", Uuid::new_v4()));
+        let dir = std::env::temp_dir().join(format!("hopper-{}", Uuid::new_v4()));
         std::fs::create_dir_all(&dir).expect("failed to create temp dir");
         dir
     }
@@ -227,8 +227,8 @@ mod tests {
     #[test]
     fn workspace_path_to_string_strips_windows_namespace_prefixes() {
         assert_eq!(
-            workspace_path_to_string(&PathBuf::from(r"\\?\I:\gpt-projects\CodexMonitor")),
-            r"I:\gpt-projects\CodexMonitor"
+            workspace_path_to_string(&PathBuf::from(r"\\?\I:\gpt-projects\Hopper")),
+            r"I:\gpt-projects\Hopper"
         );
     }
 }

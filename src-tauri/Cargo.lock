@@ -583,45 +583,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "codex-monitor"
-version = "0.7.68"
-dependencies = [
- "base64 0.22.1",
- "block2",
- "chrono",
- "cpal",
- "fix-path-env",
- "futures-util",
- "git2",
- "ignore",
- "libc",
- "objc2",
- "objc2-app-kit",
- "objc2-av-foundation",
- "objc2-foundation",
- "portable-pty",
- "reqwest 0.12.28",
- "serde",
- "serde_json",
- "sha2",
- "shell-words",
- "tauri",
- "tauri-build",
- "tauri-plugin-dialog",
- "tauri-plugin-liquid-glass",
- "tauri-plugin-notification",
- "tauri-plugin-opener",
- "tauri-plugin-process",
- "tauri-plugin-updater",
- "tauri-plugin-window-state",
- "tokio",
- "tokio-tungstenite",
- "toml_edit 0.20.2",
- "uuid",
- "whisper-rs",
-]
-
-[[package]]
 name = "combine"
 version = "4.6.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1736,6 +1697,45 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "cc627f471c528ff0c4a49e1d5e60450c8f6461dd6d10ba9dcd3a61d3dff7728d"
 dependencies = [
  "windows-sys 0.61.2",
+]
+
+[[package]]
+name = "hopper"
+version = "0.7.68"
+dependencies = [
+ "base64 0.22.1",
+ "block2",
+ "chrono",
+ "cpal",
+ "fix-path-env",
+ "futures-util",
+ "git2",
+ "ignore",
+ "libc",
+ "objc2",
+ "objc2-app-kit",
+ "objc2-av-foundation",
+ "objc2-foundation",
+ "portable-pty",
+ "reqwest 0.12.28",
+ "serde",
+ "serde_json",
+ "sha2",
+ "shell-words",
+ "tauri",
+ "tauri-build",
+ "tauri-plugin-dialog",
+ "tauri-plugin-liquid-glass",
+ "tauri-plugin-notification",
+ "tauri-plugin-opener",
+ "tauri-plugin-process",
+ "tauri-plugin-updater",
+ "tauri-plugin-window-state",
+ "tokio",
+ "tokio-tungstenite",
+ "toml_edit 0.20.2",
+ "uuid",
+ "whisper-rs",
 ]
 
 [[package]]

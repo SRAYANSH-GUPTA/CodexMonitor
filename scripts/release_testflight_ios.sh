@@ -20,13 +20,13 @@ IPA_PATH="${IPA_PATH:-}"
 BUILD_NUMBER="${BUILD_NUMBER:-}"
 LOCALE="${LOCALE:-en-US}"
 BETA_GROUP_NAME="${BETA_GROUP_NAME:-Beta Testers}"
-BETA_DESCRIPTION="${BETA_DESCRIPTION:-Codex Monitor iOS beta build for external testing.}"
+BETA_DESCRIPTION="${BETA_DESCRIPTION:-Hopper iOS beta build for external testing.}"
 FEEDBACK_EMAIL="${FEEDBACK_EMAIL:-}"
 REVIEW_FIRST_NAME="${REVIEW_FIRST_NAME:-}"
 REVIEW_LAST_NAME="${REVIEW_LAST_NAME:-}"
 REVIEW_CONTACT_EMAIL="${REVIEW_CONTACT_EMAIL:-}"
 REVIEW_CONTACT_PHONE="${REVIEW_CONTACT_PHONE:-}"
-REVIEW_NOTES="${REVIEW_NOTES:-Codex Monitor iOS beta build for external testing.}"
+REVIEW_NOTES="${REVIEW_NOTES:-Hopper iOS beta build for external testing.}"
 SKIP_BUILD=0
 SKIP_SUBMIT=0
 TAURI_IOS_LOCAL_CONFIG="src-tauri/tauri.ios.local.conf.json"
@@ -45,7 +45,7 @@ Override the path with TESTFLIGHT_ENV_FILE=/path/to/file.
 Options:
   --app-id <id>              App Store Connect app ID (auto-resolved by bundle id if omitted)
   --bundle-id <id>           Bundle identifier (default: resolved from Tauri iOS config)
-  --ipa <path>               IPA path (default: src-tauri/gen/apple/build/arm64/Codex Monitor.ipa)
+  --ipa <path>               IPA path (default: src-tauri/gen/apple/build/arm64/Hopper.ipa)
   --target <target>          Tauri iOS target (default: aarch64)
   --build-number <number>    Build number used during archive (default: current unix timestamp)
   --skip-build               Skip Tauri archive/export step and reuse existing IPA
@@ -64,7 +64,7 @@ Review metadata (required for external submission if not already set in ASC):
 
 Examples:
   ./scripts/release_testflight_ios.sh
-  ./scripts/release_testflight_ios.sh --skip-build --ipa "src-tauri/gen/apple/build/arm64/Codex Monitor.ipa"
+  ./scripts/release_testflight_ios.sh --skip-build --ipa "src-tauri/gen/apple/build/arm64/Hopper.ipa"
 USAGE
 }
 
@@ -237,7 +237,7 @@ if [[ -z "$BUNDLE_ID" ]]; then
   BUNDLE_ID="$(resolve_ios_bundle_id)"
 fi
 if [[ -z "$BUNDLE_ID" ]]; then
-  BUNDLE_ID="com.dimillian.codexmonitor.ios"
+  BUNDLE_ID="com.dimillian.hopper.ios"
 fi
 
 log "Checking App Store Connect authentication"
@@ -266,7 +266,7 @@ if [[ "$SKIP_BUILD" -eq 0 ]]; then
 fi
 
 if [[ -z "$IPA_PATH" ]]; then
-  IPA_PATH="src-tauri/gen/apple/build/arm64/Codex Monitor.ipa"
+  IPA_PATH="src-tauri/gen/apple/build/arm64/Hopper.ipa"
 fi
 
 [[ -f "$IPA_PATH" ]] || fail "IPA not found at: $IPA_PATH"

@@ -183,7 +183,7 @@ if [[ -z "$BUNDLE_ID" ]]; then
   BUNDLE_ID="$(resolve_ios_config_value identifier)"
 fi
 if [[ -z "$BUNDLE_ID" ]]; then
-  BUNDLE_ID="com.dimillian.codexmonitor.ios"
+  BUNDLE_ID="com.dimillian.hopper.ios"
 fi
 
 if [[ -z "$DEVELOPMENT_TEAM" ]]; then
@@ -218,9 +218,9 @@ if [[ "$SKIP_BUILD" -eq 0 ]]; then
   "${BUILD_CMD[@]}"
 fi
 
-APP_PATH="src-tauri/gen/apple/build/arm64/Codex Monitor.app"
+APP_PATH="src-tauri/gen/apple/build/arm64/Hopper.app"
 if [[ ! -d "$APP_PATH" ]]; then
-  APP_PATH="$(find src-tauri/gen/apple/build -maxdepth 4 -type d -name 'Codex Monitor.app' | head -n 1 || true)"
+  APP_PATH="$(find src-tauri/gen/apple/build -maxdepth 4 -type d -name 'Hopper.app' | head -n 1 || true)"
 fi
 
 if [[ -z "$APP_PATH" || ! -d "$APP_PATH" ]]; then

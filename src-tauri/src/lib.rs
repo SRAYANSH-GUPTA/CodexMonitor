@@ -131,6 +131,12 @@ pub fn run() {
                     let _ = main_window.hide_menu();
                 }
             }
+            #[cfg(target_os = "macos")]
+            {
+                // On macOS the menu is app-level (global menu bar), not window-level.
+                // Remove it from the app handle so nothing appears in the system menu bar.
+                let _ = app.remove_menu();
+            }
             #[cfg(desktop)]
             {
                 let app_handle = app.handle().clone();

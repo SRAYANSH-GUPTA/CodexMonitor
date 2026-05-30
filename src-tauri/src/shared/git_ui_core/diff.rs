@@ -129,7 +129,7 @@ fn has_ignored_parent_directory(repo: &Repository, path: &Path) -> bool {
         if parent.as_os_str().is_empty() {
             break;
         }
-        let probe = parent.join(".codexmonitor-ignore-probe");
+        let probe = parent.join(".hopper-ignore-probe");
         if repo.status_should_ignore(&probe).unwrap_or(false) {
             return true;
         }

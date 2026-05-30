@@ -149,7 +149,7 @@ if [[ -z "$BUNDLE_ID" ]]; then
   BUNDLE_ID="$(resolve_ios_bundle_id)"
 fi
 if [[ -z "$BUNDLE_ID" ]]; then
-  BUNDLE_ID="com.dimillian.codexmonitor.ios"
+  BUNDLE_ID="com.dimillian.hopper.ios"
 fi
 
 if [[ "$SKIP_BUILD" -eq 0 ]]; then
@@ -160,9 +160,9 @@ if [[ "$SKIP_BUILD" -eq 0 ]]; then
   "$NPM_BIN" run tauri -- ios build -d -t "$TARGET" "${TAURI_CONFIG_ARGS[@]}" --ci
 fi
 
-APP_PATH="src-tauri/gen/apple/build/${APP_ARCH_DIR}/Codex Monitor.app"
+APP_PATH="src-tauri/gen/apple/build/${APP_ARCH_DIR}/Hopper.app"
 if [[ ! -d "$APP_PATH" ]]; then
-  FALLBACK_APP="$(find src-tauri/gen/apple/build -maxdepth 3 -type d -name 'Codex Monitor.app' | head -n 1 || true)"
+  FALLBACK_APP="$(find src-tauri/gen/apple/build -maxdepth 3 -type d -name 'Hopper.app' | head -n 1 || true)"
   if [[ -n "$FALLBACK_APP" ]]; then
     APP_PATH="$FALLBACK_APP"
   fi

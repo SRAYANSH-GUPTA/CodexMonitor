@@ -1,10 +1,10 @@
-# CodexMonitor
+# Hopper
 
-[![gitcgr](https://gitcgr.com/badge/Dimillian/CodexMonitor.svg)](https://gitcgr.com/Dimillian/CodexMonitor)
+[![gitcgr](https://gitcgr.com/badge/Dimillian/Hopper.svg)](https://gitcgr.com/Dimillian/Hopper)
 
-![CodexMonitor](screenshot.png)
+![Hopper](screenshot.png)
 
-CodexMonitor is a Tauri app for orchestrating multiple Codex agents across local workspaces. It provides a sidebar to manage projects, a home screen for quick actions, and a conversation view backed by the Codex app-server protocol.
+Hopper is a Tauri app for orchestrating multiple Codex agents across local workspaces. It provides a sidebar to manage projects, a home screen for quick actions, and a conversation view backed by the Codex app-server protocol.
 
 ## Features
 
@@ -90,11 +90,11 @@ Use this when connecting the iOS app to a desktop-hosted daemon over your Tailsc
 Canonical runbook: `docs/mobile-ios-tailscale-blueprint.md`.
 
 1. Install and sign in to Tailscale on both desktop and iPhone (same tailnet).
-2. On desktop CodexMonitor, open `Settings > Server`.
+2. On desktop Hopper, open `Settings > Server`.
 3. Set a `Remote backend token`.
 4. Start the desktop daemon with `Start daemon` (in `Mobile access daemon`).
 5. In `Tailscale helper`, use `Detect Tailscale` and note the suggested host (for example `your-mac.your-tailnet.ts.net:4732`).
-6. On iOS CodexMonitor, open `Settings > Server`.
+6. On iOS Hopper, open `Settings > Server`.
 7. Enter the desktop Tailscale host and the same token.
 8. Tap `Connect & test` and confirm it succeeds.
 
@@ -111,23 +111,23 @@ Build binaries:
 
 ```bash
 cd src-tauri
-cargo build --bin codex_monitor_daemon --bin codex_monitor_daemonctl
+cargo build --bin hopper_daemon --bin hopper_daemonctl
 ```
 
 Examples:
 
 ```bash
 # Show current daemon status
-./target/debug/codex_monitor_daemonctl status
+./target/debug/hopper_daemonctl status
 
 # Start daemon using host/token from settings.json
-./target/debug/codex_monitor_daemonctl start
+./target/debug/hopper_daemonctl start
 
 # Stop daemon
-./target/debug/codex_monitor_daemonctl stop
+./target/debug/hopper_daemonctl stop
 
 # Print equivalent daemon start command
-./target/debug/codex_monitor_daemonctl command-preview
+./target/debug/hopper_daemonctl command-preview
 ```
 
 Useful overrides:
@@ -135,7 +135,7 @@ Useful overrides:
 - `--data-dir <path>`: app data dir containing `settings.json` / `workspaces.json`
 - `--listen <addr>`: bind address override
 - `--token <token>`: token override
-- `--daemon-path <path>`: explicit `codex-monitor-daemon` binary path
+- `--daemon-path <path>`: explicit `hopper-daemon` binary path
 - `--json`: machine-readable output
 
 ### iOS Prerequisites
@@ -276,8 +276,8 @@ src/
   types.ts          shared types
 src-tauri/
   src/lib.rs        Tauri app backend command registry
-  src/bin/codex_monitor_daemon.rs  remote daemon JSON-RPC process
-  src/bin/codex_monitor_daemon/rpc/  daemon RPC domain handlers
+  src/bin/hopper_daemon.rs  remote daemon JSON-RPC process
+  src/bin/hopper_daemon/rpc/  daemon RPC domain handlers
   src/shared/       shared backend core used by app + daemon
   src/shared/git_ui_core/      git/github shared core modules
   src/shared/workspaces_core/  workspace/worktree shared core modules
@@ -297,9 +297,9 @@ src-tauri/
 - Selecting a thread always calls `thread/resume` to refresh messages from disk.
 - CLI sessions appear if their `cwd` matches the workspace path; they are not live-streamed unless resumed.
 - The app uses `codex app-server` over stdio; see `src-tauri/src/lib.rs` and `src-tauri/src/codex/`.
-- The remote daemon entrypoint is `src-tauri/src/bin/codex_monitor_daemon.rs`; RPC routing lives in `src-tauri/src/bin/codex_monitor_daemon/rpc.rs` and domain handlers in `src-tauri/src/bin/codex_monitor_daemon/rpc/`.
+- The remote daemon entrypoint is `src-tauri/src/bin/hopper_daemon.rs`; RPC routing lives in `src-tauri/src/bin/hopper_daemon/rpc.rs` and domain handlers in `src-tauri/src/bin/hopper_daemon/rpc/`.
 - Shared domain logic lives in `src-tauri/src/shared/` (notably `src-tauri/src/shared/git_ui_core/` and `src-tauri/src/shared/workspaces_core/`).
-- Codex home resolves from workspace settings (if set), then legacy `.codexmonitor/`, then `$CODEX_HOME`/`~/.codex`.
+- Codex home resolves from workspace settings (if set), then legacy `.hopper/`, then `$CODEX_HOME`/`~/.codex`.
 - Worktree agents live under the app data directory (`worktrees/<workspace-id>`); legacy `.codex-worktrees/` paths remain supported, and the app no longer edits repo `.gitignore` files.
 - UI state (panel sizes, reduced transparency toggle, recent thread activity) is stored in `localStorage`.
 - Custom prompts load from `$CODEX_HOME/prompts` (or `~/.codex/prompts`) with optional frontmatter description/argument hints.

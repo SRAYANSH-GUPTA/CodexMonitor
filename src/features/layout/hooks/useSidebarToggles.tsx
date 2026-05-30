@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
-const SIDEBAR_COLLAPSED_KEY = "codexmonitor.sidebarCollapsed";
-const RIGHT_PANEL_COLLAPSED_KEY = "codexmonitor.rightPanelCollapsed";
+const SIDEBAR_COLLAPSED_KEY = "hopper.sidebarCollapsed";
+const RIGHT_PANEL_COLLAPSED_KEY = "hopper.rightPanelCollapsed";
 
 type UseSidebarTogglesOptions = {
   isCompact: boolean;

@@ -41,7 +41,7 @@ const THREAD_LIST_TARGET_COUNT = 20;
 const THREAD_LIST_PAGE_SIZE = 100;
 const THREAD_LIST_MAX_PAGES_OLDER = 6;
 const THREAD_LIST_MAX_PAGES_DEFAULT = 6;
-const THREAD_LIST_CURSOR_PAGE_START = "__codex_monitor_page_start__";
+const THREAD_LIST_CURSOR_PAGE_START = "__hopper_page_start__";
 
 type UseThreadActionsOptions = {
   dispatch: Dispatch<ThreadAction>;

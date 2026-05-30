@@ -46,7 +46,7 @@ vi.mock("@threads/utils/threadStorage", () => ({
 describe("useThreadActions", () => {
   const workspace: WorkspaceInfo = {
     id: "ws-1",
-    name: "CodexMonitor",
+    name: "Hopper",
     path: "/tmp/codex",
     connected: true,
     settings: { sidebarCollapsed: false },
@@ -1552,7 +1552,7 @@ describe("useThreadActions", () => {
         "ws-1": [{ id: "thread-1", name: "Agent 1", updatedAt: 6000 }],
       },
       threadListCursorByWorkspace: {
-        "ws-1": "__codex_monitor_page_start__",
+        "ws-1": "__hopper_page_start__",
       },
     });
 

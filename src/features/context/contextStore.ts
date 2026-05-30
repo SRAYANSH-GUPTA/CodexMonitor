@@ -2,8 +2,8 @@
 // Follows the spec in docs/HOW-IT-WORKS.md.
 
 const MAX_RECENT_TURNS = 3;
-const STORAGE_PREFIX = "codexmonitor.context";
-const PENDING_HANDOFF_PREFIX = "codexmonitor.pendingHandoff";
+const STORAGE_PREFIX = "hopper.context";
+const PENDING_HANDOFF_PREFIX = "hopper.pendingHandoff";
 
 export type TurnRecord = {
   userText: string;
